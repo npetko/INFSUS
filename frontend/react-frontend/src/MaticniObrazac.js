@@ -28,12 +28,9 @@ const MaticniObrazac = ({ sendUgasiObrazac }) => {
     console.log(podaci)
 
     const [isShownMessage, setIsShownMessage] = useState("");
-    
-
 
     const [podaciList, setPodaciList] = useState();
     const [result, setResult] = useState(null);
-    //let obj = { ["brPutnogNaloga"]: localStorage.getItem("brPutnogNalogaToShow") };
     const handleSubmit = event => {
         event.preventDefault();
         //stavljanje u json
@@ -62,44 +59,31 @@ const MaticniObrazac = ({ sendUgasiObrazac }) => {
             console.log(err.message)
         }
     }
+    return ( <div> 
+                <div> Podaci o tvrtki:</div>  
+                <form onSubmit={handleSubmit}>
+                    <div className="inputStyle">
+                        <label className="text">OIB:</label>
+                        <input type="text" name="oib" id="oib" defaultValue={podaci.oib} required  />
+                    </div>
+                    <div className="inputStyle">
+                        <label className="text">Ime:</label>
+                        <input type="text" name="ime" id="ime" defaultValue={podaci.ime} required  />
+                    </div>
+                    <div className="inputStyle">
+                        <label className="text">Adresa:</label>
+                        <input type="text" name="adresa" id="adresa" defaultValue={podaci.adresa} required  />
+                    </div>
+                    <div className="inputStyle">
+                        <label className="text">Email:</label>
+                        <input type="text" name="email" id="email" defaultValue={podaci.email} required  />
+                    </div>
+                    
+                    <button type="submit" className="submit-resetBtn"> Potvrdi promjenu</button>
+                    <button className="submit-resetBtn" onClick={handleOdustani}> Odustani</button>
+                </form>
 
-    
-    
-    return ( <div>
-       
-                        
-                                
-                            <div> Podaci o tvrtki:</div>  
-                            <form onSubmit={handleSubmit}>
-                                <div className="inputStyle">
-                                    <label className="text">OIB:</label>
-                                    <input type="text" name="oib" id="oib" defaultValue={podaci.oib} required  />
-                                </div>
-                                <div className="inputStyle">
-                                    <label className="text">Ime:</label>
-                                    <input type="text" name="ime" id="ime" defaultValue={podaci.ime} required  />
-                                </div>
-                                <div className="inputStyle">
-                                    <label className="text">Adresa:</label>
-                                    <input type="text" name="adresa" id="adresa" defaultValue={podaci.adresa} required  />
-                                </div>
-                                <div className="inputStyle">
-                                    <label className="text">Email:</label>
-                                    <input type="text" name="email" id="email" defaultValue={podaci.email} required  />
-                                </div>
-                               
-                                <button type="submit" className="submit-resetBtn"> Potvrdi promjenu</button>
-                                <button className="submit-resetBtn" onClick={handleOdustani}> Odustani</button>
-                            </form>
-
-                            {isShownMessage}
-                            
-                        
-                        
+                {isShownMessage}  
             </div>)
-
-       
-        
-    
 }
 export default MaticniObrazac;

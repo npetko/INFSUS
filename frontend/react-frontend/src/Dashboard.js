@@ -5,7 +5,6 @@ import ObrazacZaNalog from "./ObrazacZaNalog";
 import "./style.css"
 import ObrazacZaDodavanjeKorisnika from "./ObrazacZaDodavanjeKorisnika";
 import Naslovnica from "./Naslovnica";
-//import {isNalogFunction} from "./Naslovnica";
 import Nalog from "./Nalog";
 import MojiNalozi from "./MojiNalozi";
 import MojaStatistika from "./MojaStatistika";
@@ -20,10 +19,7 @@ import NaloziSvi from "./NaloziSvi";
 import ObracuniSvi from "./ObracuniSvi";
 import Maticni from "./Maticni";
 
-
 const Dashboard = () => {
-
-    
     const navigate = useNavigate();
     var msg = ""
     if (localStorage.getItem("message")) {
@@ -86,12 +82,6 @@ const Dashboard = () => {
         setIsShownMojiNalozi(true);
     };
 
-    /*const hideMojiNalozi = event => {
-        setIsShownMojiNalozi(false);
-        setIsShownNaslovnica(true); //svaki put trebamo vratiti naslovnicu kada zatvaramo ovo
-    }
-    */
-
     //otvori moje obracune
     const showMojiObracuni = event => {
         closeAllWindows(); //treba sve moguće prozore onemogućiti
@@ -103,14 +93,12 @@ const Dashboard = () => {
         setIsShownAktivniNalozi(true);
     };
 
-   
     //otvori zatrazi promjenu lozinke
     const showPromjenaLoz = event => {
         closeAllWindows(); //treba sve moguće prozore onemogućiti
         setIsShownPromjenaLoz(true);
     };
 
-    
     //otvori zaposlenike
     const showZaposlenici = event => {
         closeAllWindows(); //treba sve moguće prozore onemogućiti
@@ -123,13 +111,11 @@ const Dashboard = () => {
         setIsShownZakljuciGod(true);
     };
 
-   
     //otvori moju statistiku
     const showMojaStatistika = event => {
         closeAllWindows(); //treba sve moguće prozore onemogućiti
         setIsShownMojaStatistika(true);
     };
-
 
     //otvori zahtjeve mojeg tima
     const showZahtjeviTim = event => {
@@ -137,7 +123,6 @@ const Dashboard = () => {
         setIsShownZahtjeviTim(true);
     };
 
-    
     //otvori obracune mojeg tima
     const showObracuniTim = event => {
         closeAllWindows(); //treba sve moguće prozore onemogućiti
@@ -157,18 +142,13 @@ const Dashboard = () => {
         closeAllWindows();
         setIsShownDodajKorisnika(true);
         setOdustani(true)
-        
     }
 
-    
     // otvori neki nalog postojeći
     const showIsNalog = event => {
         closeAllWindows();
         setIsNalog(true);
-        
     };
-
-   
 
     //prikazi naslovnicu
     const showNaslovnica = event => {
@@ -198,8 +178,6 @@ const Dashboard = () => {
         closeAllWindows();
         setIsShownUserInfo(true);
     };
-
-
 
     if (userData.uloga == "ZAPOSLENIK") {
         return (
@@ -263,16 +241,12 @@ const Dashboard = () => {
                     }
 
                     <div className="info-container">
-                        
                         {isShownNaslovnica && (
                             <Naslovnica></Naslovnica>)
                         }
-
                         {isShownNalog && (
                             <ObrazacZaNalog></ObrazacZaNalog>
                         )}
-
-
                         {isShownMojiNalozi && (
                             <MojiNalozi></MojiNalozi>
                         )}
@@ -288,8 +262,6 @@ const Dashboard = () => {
                         <p>{msg.replaceAll("\"", "")}</p>
 
                     </div>
-
-
                 </div>
             </>
         );
@@ -359,20 +331,15 @@ const Dashboard = () => {
 
 
                     <div className="info-container">
-                        
                         {isShownNaslovnica && (
                             <Naslovnica></Naslovnica>)
                         }
-
                         {isShownNalog && (
                             <ObrazacZaNalog></ObrazacZaNalog>
                         )}
-
-                        
                         {isShownMojiNalozi && (
                             <MojiNalozi></MojiNalozi>
                         )}
-
                         {isShownMojaStatistika && (
                             <MojaStatistika></MojaStatistika>
                         )}
@@ -389,10 +356,7 @@ const Dashboard = () => {
                             <MojiObracuni></MojiObracuni>
                         )}
                         <p>{msg.replaceAll("\"", "")}</p>
-
                     </div>
-
-
                 </div>
             </>
         );
@@ -460,19 +424,13 @@ const Dashboard = () => {
                             </div>
                         )
                     }
-
-
                             <div className="info-container">
-                                
                                 {isShownNaslovnica && (
                                     <Naslovnica></Naslovnica>)
                                 }
-
                                 {isShownNalog && (
                                     <ObrazacZaNalog></ObrazacZaNalog>
                                 )}
-
-
                                 {isShownMojiNalozi && (
                                     <MojiNalozi></MojiNalozi>
                                 )}

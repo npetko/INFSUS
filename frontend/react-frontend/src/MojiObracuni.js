@@ -66,7 +66,6 @@ const MojiObracuni = () => {
                     setResult(result)
                 }
                 //setNalogList(result.zahtjevi)
-
             }
             else {
                 throw (error)
@@ -77,8 +76,6 @@ const MojiObracuni = () => {
         }
     }, [])
     useEffect(() => {
-        //Attempt to retreive data
-
         fetchData();
     }
         , [fetchData]);
@@ -95,7 +92,6 @@ const MojiObracuni = () => {
     function handleCategoryChangeStatus(event) {
         setSelectedCategoryStatus(event.target.value);
         setCuvajStatus(selectedCategoryStatus);
-
     }
 
     function getFilteredList() {
@@ -114,57 +110,50 @@ const MojiObracuni = () => {
 
     return (!result ? <p>Učitava se ...</p> :
         <>
-            {isShownMojiObracuni && (
-                <div className="naslovnica">
-                    <div className="lista">
-                        <p className="hZ"> Moji obračuni: </p>
-                        <div>Filtiraj po statusu:</div>
-                            <div>
-                                <select
-                                    name="category-list"
-                                    id="category-list"
-                                    onChange={handleCategoryChangeStatus}
-                                    value = {cuvajStatus}
-                                    
-                                    
-                                >
-                                    <option value="">Svi obračuni</option>
-                                    <option value="U_PRIPREMI">U pripremi</option>
-                                    <option value="SPREMAN_ZA_OBRACUN">Spreman za obračun</option>
-                                    <option value="STORNIRAN">Storniran</option>
-                                    <option value="OBRACUNAT">Obračunat</option>
-                                    <option value="ODOBREN">Odobren</option>
-                                </select>
-                            </div>
-                        {listaObracuna.length == 0 && <p>Nema obračuna za prikaz</p>}
-                        {isShownMojiObracuni &&
-                            <div className="sveNotif">{filteredList.map(({ brPutnogNaloga, status }) => {
-                                return (
-                                    <div key={brPutnogNaloga} id={brPutnogNaloga} className="oneNotif">
-                                        <p>
-                                            Putni nalog: {brPutnogNaloga}
-                                        </p>
-                                        <p>
-                                        Status: {status.replace(/_/g, " ")}
-                                        </p>
-                                        
-                                            <button className="buttons" id={brPutnogNaloga} onClick={() => { sendBrNaloga(brPutnogNaloga); showIsObracun(); }}>Otvori obračun</button>
-                                        
-                                    </div>
-                                )
-                            })}
+        {isShownMojiObracuni && (
+            <div className="naslovnica">
+                <div className="lista">
+                    <p className="hZ"> Moji obračuni: </p>
+                    <div>Filtiraj po statusu:</div>
+                        <div>
+                            <select
+                                name="category-list"
+                                id="category-list"
+                                onChange={handleCategoryChangeStatus}
+                                value = {cuvajStatus}
+                            >
+                                <option value="">Svi obračuni</option>
+                                <option value="U_PRIPREMI">U pripremi</option>
+                                <option value="SPREMAN_ZA_OBRACUN">Spreman za obračun</option>
+                                <option value="STORNIRAN">Storniran</option>
+                                <option value="OBRACUNAT">Obračunat</option>
+                                <option value="ODOBREN">Odobren</option>
+                            </select>
+                        </div>
+                    {listaObracuna.length == 0 && <p>Nema obračuna za prikaz</p>}
+                    {isShownMojiObracuni &&
+                        <div className="sveNotif">{filteredList.map(({ brPutnogNaloga, status }) => {
+                            return (
+                                <div key={brPutnogNaloga} id={brPutnogNaloga} className="oneNotif">
+                                    <p>
+                                        Putni nalog: {brPutnogNaloga}
+                                    </p>
+                                    <p>
+                                    Status: {status.replace(/_/g, " ")}
+                                    </p>
+                                    <button className="buttons" id={brPutnogNaloga} onClick={() => { sendBrNaloga(brPutnogNaloga); showIsObracun(); }}>Otvori obračun</button>
+                                </div>
+                            )
+                        })}
+                        </div>
+                    }
+                </div>
+            </div>)
+        }
 
-                            </div>
-
-                        }
-
-                    </div>
-
-                </div>)}
-
-            {isObracun && (
-                <Obracun sendUgasiObracun={sendUgasiObracun}></Obracun>
-            )}
+        {isObracun && (
+            <Obracun sendUgasiObracun={sendUgasiObracun}></Obracun>
+        )}
         </>
     );
 

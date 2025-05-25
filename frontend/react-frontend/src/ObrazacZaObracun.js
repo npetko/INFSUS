@@ -25,13 +25,10 @@ const ObrazacZaObracun = ({ ugasiObracun , promijeniUpdate}) => {
     const handleSelectFile = (event) => {
         event.preventDefault()
         console.log(event.target.files)
-
         setCurrentFile(event.target.files[0]);
-
     }
 
     const uploadFile = () => {
-        //event.preventDefault()
         let formData = new FormData();
 
         formData.append("file", currentFile);
@@ -78,7 +75,6 @@ const ObrazacZaObracun = ({ ugasiObracun , promijeniUpdate}) => {
                     setResult(false)
                     setUpdate(true);
                 } setIsMsg(res.data);
-
             })
         } catch (err) {
             console.log(err.message);
@@ -100,7 +96,6 @@ const ObrazacZaObracun = ({ ugasiObracun , promijeniUpdate}) => {
                     setIsMsg("Trošak uspješno unesen.")
                     setDodanTrosak(true)
                 } else { setIsMsg(res.data); }
-
             })
         } catch (err) {
             console.log(err.message)
@@ -110,31 +105,24 @@ const ObrazacZaObracun = ({ ugasiObracun , promijeniUpdate}) => {
     }
 
     const handleSubmit = (event) => {
-        //ovdje ide obican submit
         event.preventDefault();
         if (isFirstSubmitButton === true) {
             try {
                 console.log(8888)
                 http.post("obracun/novi-obracun", document.forms[0]).then(res => {
-                    //localStorage.setItem("message", JSON.stringify(res.data));
-                    //navigate("/dashboard");
                     if (res.status == 200) {
                         event.target.reset();
-                        //ispisiStatus(res.data)
                         localStorage.removeItem("trosakId")
                         setIsMsg(res.data)
                         setButtonsShown(false);
                     } else if(res.status == 202) {
                         setIsMsg(res.data)
-
                     }
-                    //else setErrorMessages({ name: "name", message: res.data });
                 });
             } catch (error) {
                 console.log(error.message)
             }
         } else {
-            //   ovdje ide spremanje podataka za kasnije, automatski se spremaju troskovi i boravci
             ugasiObracun();
         }
 
@@ -171,21 +159,16 @@ const ObrazacZaObracun = ({ ugasiObracun , promijeniUpdate}) => {
     const [resultDrzave, setResultDrzave] = useState([]);
 
     useEffect(() => {
-        //Attempt to retreive data
         if (isMsg) {
             setMsg(isMsg)
         }
-    }
-        , [isMsg]);
-
+    }, [isMsg]);
 
     const [imaBoravaka, setImaBoravaka] = useState(false);
     const [imaTroskova, setImaTroskova] = useState(false);
     
     const fetchData = useCallback(async () => {
-
         try {
-
             const res = await http.post("svi-zahtjevi/", obj).then(async res => {
                 const resultNalogList = res.data.sviZahtjevi
                 setResultNalogList(resultNalogList)
@@ -233,21 +216,14 @@ const ObrazacZaObracun = ({ ugasiObracun , promijeniUpdate}) => {
 
         }
         catch (error) {
-            //Handle error
         }
     }, [])
     useEffect(() => {
-        //Attempt to retreive data
-
         fetchData();
-    }
-        , [fetchData]);
-
-
+    }, [fetchData]);
 
     useEffect(() => {
         if (result === true) {
-            //setNalogList(resultNalogList.at(0))
             setNalog(resultNalogList.at(0));
             setIme(resultIme.at(0))
             setValutaList(resultValuta);
@@ -261,14 +237,11 @@ const ObrazacZaObracun = ({ ugasiObracun , promijeniUpdate}) => {
     }, [result]);
 
     useEffect(() => {
-
         if (update) {
             fetchData();
             setUpdate(false)
         }
-
     }, [update])
-
 
     const handleUgasiObracun = (event) => {
       setButtonsShown(true);
@@ -294,13 +267,8 @@ const ObrazacZaObracun = ({ ugasiObracun , promijeniUpdate}) => {
                 }
             })
         } catch (error) {
-            //handle error
         }
     }
-
-
-
-
 
     return ((result === false) ? <p>Učitava se ...</p> :
         <>
@@ -344,17 +312,6 @@ const ObrazacZaObracun = ({ ugasiObracun , promijeniUpdate}) => {
                     <input type="hidden" value={brPutnogNaloga} name="brPutnogNaloga" />
                     <div className="inputStyle">
                         <label className="text">Ime države:</label>
-                        {/*<select id="countriesDropDown" name="imeDrzave" onChange={handleCountryChange}>
-                            {
-                                drzavaList.map((cijelaDrzava) => {
-                                    return(
-                                        <option value={cijelaDrzava.imeDrzave}>{cijelaDrzava.imeDrzave}</option>
-                                    )
-                                })
-                            }
-                        </select> */
-                        }
-
                         <input type="search" list="countriesDropDown" name="imeDrzave" id="ime-drzave-boravak"></input>
                         <datalist id="countriesDropDown" name="imeDrzave" onChange={handleCountryChange}>
                             {
@@ -365,8 +322,6 @@ const ObrazacZaObracun = ({ ugasiObracun , promijeniUpdate}) => {
                                 })
                             }
                         </datalist>
-
-                        {/*<input id="ime-drzave-boravak" type="text" name="imeDrzave"/>*/}
                     </div>
 
                     <div className="inputStyle">
@@ -397,39 +352,17 @@ const ObrazacZaObracun = ({ ugasiObracun , promijeniUpdate}) => {
 
                     <div className="inputStyle">
                         <label className="text">Valuta: </label>
-                        { /*<select
-                            name="valuta"
-                            id="category-list"
-                            onChange={handleCategoryChangeValuta}
-                            value={valuta.valuta}
-
-                        >
-                            <option value="EUR">EUR (Europska Unija)</option>
-
-                            {
-                                valutaList.map(( cijelaValuta ) => {
-                                    return (
-                                        
-                                        <option value={cijelaValuta.valuta}>{cijelaValuta.valuta} ({cijelaValuta.drzava})</option>
-                                    )
-                                })}
-
-
-                        </select>*/
-                        }
                         <input type="search" list="category-list" name="valuta" id="valuta"></input>
                         <datalist id="category-list" name="valuta" onChange={handleCategoryChangeValuta}>
                             <option value="EUR">EUR (Europska Unija)</option>
                             {
                                 valutaList.map((cijelaValuta) => {
                                     return (
-
                                         <option value={cijelaValuta.valuta}>{cijelaValuta.valuta} ({cijelaValuta.drzava})</option>
                                     )
                                 })
                             }
                         </datalist>
-
                     </div>
                     <fieldset>
                         <label>Povrat novca: </label>
@@ -445,7 +378,6 @@ const ObrazacZaObracun = ({ ugasiObracun , promijeniUpdate}) => {
                     <button type="submit" className="submit-resetBtn">Dodaj trošak</button>
                 </form>
                     <hr/>
-
                     {<div>
                         <div className="inputStyle">
                             <p> Datoteka(pdf, jpeg, jpg, png) za trošak #{trosakId} </p>
@@ -462,12 +394,9 @@ const ObrazacZaObracun = ({ ugasiObracun , promijeniUpdate}) => {
                                     })
                                 }
                             </select>
-
-
                         </div>
                         <button className="submit-resetBtn" htmlFor="selectFile">Odaberi datoteku...</button>
                         <input disabled={trosakId === ""} id="selectFile" type="file" onChange={handleSelectFile} style={{ display: "none" }} />
-
                         {currentFile &&
                             <>
                                 <div>
@@ -479,25 +408,15 @@ const ObrazacZaObracun = ({ ugasiObracun , promijeniUpdate}) => {
                                     </ul>
                                 </div>
                                 <button className="submit-resetBtn"
-                                    //disabled={!currentFile}
-                                        onClick={() => uploadFile(currentFile)}
+                                    onClick={() => uploadFile(currentFile)}
                                 >
                                     Pošalji
                                 </button>
                             </>
                         }
-                        {resultUpload && <p>{resultUpload}</p>
-                        }
-
-
+                        { resultUpload && <p>{resultUpload}</p> }
                     </div>}
-
                 </div>
-
-
-
-
-
             </div>
             <div>
                 {buttonsShown && (
@@ -514,7 +433,6 @@ const ObrazacZaObracun = ({ ugasiObracun , promijeniUpdate}) => {
 
             </div>
             {msg && <p  id="status-obracuna">{msg}</p>}
-
 
             <div>
                 <div>

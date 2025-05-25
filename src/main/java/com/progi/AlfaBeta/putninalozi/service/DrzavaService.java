@@ -9,4 +9,7 @@ public interface DrzavaService {
     Drzava getDrzava(String imeDrzave);
 
     List<Drzava> listAll();
+    Drzava save(Drzava drzava);
+
+    void deleteById(String sifraDrzave);
 }

@@ -24,4 +24,14 @@ public class DrzavaServiceImpl implements DrzavaService {
     public List<Drzava> listAll() {
         return drzavaRepo.findAll();
     }
+
+    @Override
+    public Drzava save(Drzava drzava) {
+        return drzavaRepo.save(drzava);
+    }
+
+    @Override
+    public void deleteById(String sifraDrzave) {
+        drzavaRepo.deleteById(sifraDrzave);
+    }
 }

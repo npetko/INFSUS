@@ -6,18 +6,6 @@ import { Navigate, useNavigate } from "react-router-dom";
 
 const MaticniValute = () => {
 
-    
-
-    /*
-     const resValuta = await http.get("trosak/popisValuta/").then(async resValuta => {
-                        console.log("2")
-                        const resultValuta = resValuta.data
-                        setResultValuta(resultValuta)
-                        setResult(true)
-
-    */
-
-    
     const [podaciList, setPodaciList] = useState([]);
     const [result, setResult] = useState(null);
     
@@ -51,9 +39,7 @@ const MaticniValute = () => {
             console.log(result)}
             
         }, [result]);
-
         
-
     return(result?
         <>
             <div className="sveNotif">

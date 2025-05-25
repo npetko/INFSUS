@@ -11,24 +11,10 @@ const ZahtjeviZaPromjenuLozinke = ({ ugasi }) => {
     const sendKorisnik = (username) => {
         localStorage.setItem("korisnikToShow", JSON.stringify({"username":username}))
     } 
-    // try {
-    //     http.get("/zahtjevi-za-lozinke").then(res => {
-    //         localStorage.setItem("zahtjevi-za-lozinku", JSON.stringify(res.data));
-    //     })
-    // } catch (err) {
-    //     console.log(err.message)
-    // }
-
-    // if(localStorage.getItem("zahtjevi-za-lozinku")) {
-    //     var zahtjevi = JSON.parse(localStorage.getItem("zahtjevi-za-lozinku"));
-    // }
-
-
 
     const [showZahtjevi, setShowZahtjevi] = useState(true);
     const [showPromijeniLozinku, setShowPromijeniLozinku] = useState(false);
     const promijeniLozinku = () => {
-        //localStorage.setItem("korisnikToShow", JSON.stringify({"username": username}))
         setShowPromijeniLozinku(true);
         setShowZahtjevi(false);
     }
@@ -38,49 +24,37 @@ const ZahtjeviZaPromjenuLozinke = ({ ugasi }) => {
         setShowZahtjevi(true);
     }
 
-
     const [zahtjevi, setZahtjevi] = useState([]);
     const [result, setResult] = useState(null);
-    //let obj = { ["brPutnogNaloga"]: localStorage.getItem("brPutnogNalogaToShow") };
-
-
     const fetchData = useCallback(async () => {
         try {
             const res = await http.get("/zahtjevi-za-lozinke");
             const result = res.data
 
             if (result) {
-                // Add any data transformation
                 setResult(result)
-
             }
             else {
                 throw (error)
             }
         }
         catch (error) {
-            //Handle error
         }
     }, [])
+
     useEffect(() => {
-        //Attempt to retreive data
         fetchData();
-        
-    }
-        , [fetchData]);
+    }, [fetchData]);
 
     useEffect(() => {
         if (result) {
             setZahtjevi(result);
         }
-
     }, [result]);
+
     useEffect(() => {
-        //Attempt to retreive data
         if (showZahtjevi == true) fetchData();
-        
-    }
-        , [showZahtjevi]);
+    }, [showZahtjevi]);
 
     console.log(zahtjevi)
     return (
@@ -88,9 +62,7 @@ const ZahtjeviZaPromjenuLozinke = ({ ugasi }) => {
         <>
             <div className="naslovnica">
                 <div className="lista">
-
                     <h2>Zahtjevi za promjenu lozinke</h2>
-                    
                     <div>
                         {showZahtjevi && zahtjevi.length !== 0 && (
                             <div className="sveNotif"> {zahtjevi.map((user) => {
@@ -111,7 +83,6 @@ const ZahtjeviZaPromjenuLozinke = ({ ugasi }) => {
                                 <p>Nema zahtjeva</p>
                                 
                             </>
-
                         )}
                         {showPromijeniLozinku && (
                             <ObrazacZaPromjenuLozinkeKodAdmina ugasiPromjenuLozinke={ugasiPromjenuLozinke}></ObrazacZaPromjenuLozinkeKodAdmina>

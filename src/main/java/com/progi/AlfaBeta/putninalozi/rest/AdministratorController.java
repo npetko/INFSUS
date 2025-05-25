@@ -40,35 +40,6 @@ import java.util.Optional;
         @Autowired
         private FirmaService firmaService;
 
-//        sad nepotrebno
-//        @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
-//        @PostMapping(value = "/novi-zaposlenik",  consumes = {"application/json"})
-//        public ResponseEntity<?> addZaposlenik(@RequestBody String zahtjevData) {
-//            JsonParser parser = JsonParserFactory.getJsonParser();
-//            System.out.println(zahtjevData);
-//            Map<String, Object> zaposlenikMap = parser.parseMap(zahtjevData);
-//            Zaposlenik zaposlenik = zaposlenikService.findByOib(zaposlenikMap.get("oib").toString());
-//            if (zaposlenik != null) {
-//                return new ResponseEntity<>("Zaposlenik s tim OIB-om već postoji.", HttpStatus.OK);
-//            } else {
-//                Zaposlenik zaposlenik1 = new Zaposlenik();
-//                try {
-//                    zaposlenik1.setIme(zaposlenikMap.get("ime").toString());
-//                    zaposlenik1.setPrezime(zaposlenikMap.get("prezime").toString());
-//                    zaposlenik1.setOib(zaposlenikMap.get("oib").toString());
-//                    Uloga uloga = Uloga.valueOf(Integer.parseInt(zaposlenikMap.get("uloga").toString()));
-//                    System.out.println(uloga);
-//                    zaposlenik1.setUloga(Uloga.valueOf(1));
-//                    zaposlenik1.setTimId(Integer.parseInt(zaposlenikMap.get("tim_id").toString()));
-//                    administratorService.addZaposlenik(zaposlenik1);
-//                    return new ResponseEntity("Zaposlenik uspješno unesen u bazu podataka.", HttpStatus.ACCEPTED);
-//                } catch (Exception e) {
-//                    System.out.println(e.getMessage());
-//                    return new ResponseEntity<>("Greška u ulaznim podacima.", HttpStatus.OK);
-//                }
-//            }
-//        }
-
         @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
         @PostMapping(value = "/novi-korisnik",  consumes = {"application/json"})
         public ResponseEntity<?> addKorisnik(@RequestBody String zahtjevData) {
@@ -92,7 +63,6 @@ import java.util.Optional;
                     korisnik1.setEmail(korisnikMap.get("email").toString());
                     zaposlenik1.setIme(korisnikMap.get("ime").toString());
                     zaposlenik1.setPrezime(korisnikMap.get("prezime").toString());
-//                    String uloga = korisnikMap.get("uloga").toString();
                     int uloga = 1;
                     switch (korisnikMap.get("uloga").toString()) {
                         case "Zaposlenik":
@@ -253,14 +223,9 @@ import java.util.Optional;
             return new ResponseEntity<>("Pohranjene promjene", HttpStatus.OK);
         }
 
-
-
-
-
         @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
         @GetMapping("/zahtjevi-za-lozinke")
         public ResponseEntity<?> getPasswordRequests() {
-//        System.out.println(promjenaLozinkeService.listAll());
             try {
                 return new ResponseEntity<>(promjenaLozinkeService.listAll(), HttpStatus.OK);
             }

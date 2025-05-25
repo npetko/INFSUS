@@ -56,22 +56,6 @@ const ZahtjeviTim = () => {
 
     }
 
-
-
-    //za kad odaberes osobu da ti se prikazu njeni nalozi
-    //const [isShownNalozi, setIsShownNalozi] = useState(false);
-
-    //const popup = Document.getElementById("popup");
-    //const showNalozi = event => {
-
-    //setIsShownNalozi(true);
-    //popup.classList.add("sveNotifOsobaPop");
-    //};
-
-    //const hideNalozi = event => {
-    //setIsShownNalozi(false);
-    //}
-
     const [listaZahtjeva, setListaZahtjeva] = useState([]);
     const [result, setResult] = useState(null);
     const [resultLjudi, setResultLjudi] = useState(null);
@@ -100,22 +84,17 @@ const ZahtjeviTim = () => {
             }
         }
         catch (error) {
-            //Handle error
         }
     }, [])
     useEffect(() => {
-        //Attempt to retreive data
-
         fetchData();
     }
         , [fetchData]);
     useEffect(() => {
-        //Attempt to retreive data
         if (isShownZahtjeviTim === true) {
             fetchData();
         }
-    }
-        , [isShownZahtjeviTim]);
+    }, [isShownZahtjeviTim]);
 
     useEffect(() => {
         if (result) {
@@ -138,11 +117,8 @@ const ZahtjeviTim = () => {
     const [selectedCategoryZaposlenik, setSelectedCategoryZaposlenik] = useState();
     const [selectedCategoryBroj, setSelectedCategoryBroj] = useState();
 
-
-
     // Function to get filtered list
     function getFilteredList() {
-
         // Avoid filter when selectedCategory is null
         setCuvajStatus(selectedCategoryStatus);
         setCuvajZaposlenik(selectedCategoryZaposlenik);
@@ -158,7 +134,6 @@ const ZahtjeviTim = () => {
             return listaZahtjeva.filter((item) => item.status === selectedCategoryStatus);
         }
         if (!selectedCategoryStatus && !selectedCategoryZaposlenik && selectedCategoryBroj) {
-
             return listaZahtjeva.filter((item) => item.brPutnogNaloga.includes(selectedCategoryBroj));
         }
         if (selectedCategoryStatus && !selectedCategoryZaposlenik && selectedCategoryBroj) {
@@ -177,60 +152,27 @@ const ZahtjeviTim = () => {
     // Avoid duplicate function calls with useMemo
     var filteredList = useMemo(getFilteredList, [selectedCategoryStatus, selectedCategoryZaposlenik, selectedCategoryBroj, listaZahtjeva]);
 
-
     function handleCategoryChangeStatus(event) {
         setSelectedCategoryStatus(event.target.value);
         setCuvajStatus(selectedCategoryStatus);
-
-
     }
     function handleCategoryChangeZaposlenik(event) {
         setSelectedCategoryZaposlenik(event.target.value);
         setCuvajZaposlenik(selectedCategoryZaposlenik);
-
-
-
     }
     function handleCategoryChangeBroj(event) {
         setSelectedCategoryBroj(event.target.value);
         setCuvajBroj(event.target.value);
-
     }
-
-
-
-    //    let obj = { ["brPutnogNaloga"]: localStorage.getItem("brPutnogNalogaToShow") };
 
     return (!result ? <p>Učitava se ...</p> :
         <>
             {isShownZahtjeviTim && (
                 <div className="naslovnica">
                     <div className="lista">
-
                         <p className="hZ"> Putni nalozi moga tima: </p>
-                        {/* <div>Moj tim (odaberi čije putne naloge želiš vidjeti):</div>
-                          <div className="filteri">
-                            <div  className="filter-buttons">
-                                <button value="" name="category-list" id="category-list" onClick={handleCategoryChangeZaposlenik}>Svi zaposlenici</button>
-                            </div>
-                        </div> */}
-
-
-
-                        {/*     <div className="sveNotif">
-                                            {
-                                                listaLjudi.map(({ ime, prezime, username }) => {
-                                                    return (
-                                                        <div className="filter-buttons">
-                                                            <button value={username} name="category-list" id="category-list" onClick={handleCategoryChangeZaposlenik}>{ime} {prezime}</button>
-                                                        </div>
-                                                    )
-                                            })}
-                            
-                        </div>*/}
                         <div className="filteri">
                             <div className="filter-container">
-
                                 <div>Filtiraj po zaposleniku:</div>
                                 <div>
                                     <select
@@ -238,21 +180,16 @@ const ZahtjeviTim = () => {
                                         id="category-list"
                                         onChange={handleCategoryChangeZaposlenik}
                                         value={cuvajZaposlenik}
-
                                     >
                                         <option value="">Svi zaposlenici</option>
-
                                         {
                                             listaImena.map(( imeZaposlenika ) => {
                                                 return (
                                                     <option value={imeZaposlenika}>{imeZaposlenika}</option>
                                                 )
                                             })}
-
-
                                     </select>
                                 </div>
-
                                 <div>Filtiraj po statusu:</div>
                                 <div>
                                     <select name="category-list" id="category-list" onChange={handleCategoryChangeStatus} value={cuvajStatus}>
@@ -267,17 +204,13 @@ const ZahtjeviTim = () => {
                             </div>
                         </div>
 
-
-
-
                         <div className="upisBroja">
 
                             <label>Broj putnog naloga:</label>
                             <input value={cuvajBroj} onChange={handleCategoryChangeBroj} />
 
                         </div>
-                        <div className="sveNotif"> {filteredList.map(({ brPutnogNaloga, status, sifDrzava, mjesto, ime, prezime }) => { //BACKEND: povuci ime i prezime prema korisnickom imenu iz zahtjeva i dodati dolje
-                            //BACKEND: let ime = povuci i let prezime = povuci                                    
+                        <div className="sveNotif"> {filteredList.map(({ brPutnogNaloga, status, sifDrzava, mjesto, ime, prezime }) => {
                             return (
                                 <div key={brPutnogNaloga} className="oneNotif">
                                     <p>
@@ -300,9 +233,6 @@ const ZahtjeviTim = () => {
                             )
                         })}
                         </div>
-
-
-
                     </div>
                 </div>)}
 

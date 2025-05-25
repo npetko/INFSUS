@@ -65,22 +65,8 @@ const Zaposlenici = () => {
     }, [result]);
 
     useEffect(() => {
-        //Attempt to retreive data
-
         if (isShownZaposlenici === true) fetchData();
-    }
-        , [isShownZaposlenici]);
-
-    //const [listaTimova, setListaTimova] = useState([])
-    /*useEffect(() => {if (result) {
-        if (korisnikList.length == 0) {
-            var listaTimova = []
-        } else {
-            var listaTimova = [...new Set(korisnikList.map(korisnik => korisnik.timId))]
-        }
-        console.log(listaTimova)
-        setListaTimova(listaTimova)
-    }}, [result])*/
+    }, [isShownZaposlenici]);
 
     if (result) {
         if (korisnikList.length == 0) {
@@ -89,9 +75,8 @@ const Zaposlenici = () => {
             var listaTimova = [...new Set(korisnikList.map(korisnik => korisnik.timId))]
         }
         console.log(listaTimova)
-        //setListaTimova(listaTimova)
     }
-    // treba dodati u backendu da se salje username i email
+
     const showKorisnik = (oib, ime, prezime, uloga, tim, korIme, email) => {
         kor = {"oib" : oib, "ime" : ime, "prezime" : prezime,"uloga" : uloga,"tim" : tim, "username" : korIme, "email" : email};
         localStorage.setItem("korisnikToShow", JSON.stringify(kor))
@@ -102,16 +87,12 @@ const Zaposlenici = () => {
 
     const ugasiKorisnik = () => {
         setIsShownKorisnik(false);
-
         setIsShownZaposlenici(true);
         navigate("/dashboard")
-
     }
 
     const [selectedCategoryTim, setSelectedCategoryTim] = useState();
     const [selectedCategoryIme, setSelectedCategoryIme] = useState();
-
-
 
     function getFilteredList() {
         if(!selectedCategoryIme && !selectedCategoryTim) {
@@ -150,15 +131,12 @@ const Zaposlenici = () => {
         setIsShownAddUser(true);
     }
     const sendUgasiAddUser = (isShownAddUser) => { //ugasi obracun kada je stisnut gumb
-
         setIsShownKorisnik(false);
-
         setIsShownAddUser(false);
         setIsShownZaposlenici(true);
         navigate("/dashboard")
 
     }
-    
 
     const [isShownZahtjeviLozinka, setIsShownZahtjeviLozinka] = useState(false);
     const showZahtjeviZaPromjenomLozinke = () => {
@@ -238,14 +216,12 @@ const Zaposlenici = () => {
                 )}
             {isShownKorisnik && (
                 <>
-                    
                     <Zaposlenik ugasiKorisnik={ugasiKorisnik}></Zaposlenik>
                 </>
             )}
             {isShownAddUser && (
                 <>
                 <div className="request">
-
                     <ObrazacZaDodavanjeKorisnika sendUgasiAddUser={sendUgasiAddUser}></ObrazacZaDodavanjeKorisnika>
                     </div>
                 </>

@@ -22,21 +22,15 @@ const NaloziSvi = () => {
     const userData = JSON.parse(localStorage.getItem("userData"));
     const navigate = useNavigate();
 
-
     const [cuvajStatus, setCuvajStatus] = useState();
     const [cuvajZaposlenik, setCuvajZaposlenik] = useState();
     const [cuvajBroj, setCuvajBroj] = useState();
 
-
-    //otvori moje timove obracune
     const [isShownNaloziSvi, setIsShownNaloziSvi] = useState(true);
     const showNaloziSvi = event => {
         setIsShownNaloziSvi(true);
-
-
     };
     const hideNaloziSvi = event => {
-
         setIsShownNaloziSvi(false);
     }
 
@@ -58,15 +52,11 @@ const NaloziSvi = () => {
     const sendUgasiNalog = () => { //ugasi obracun kada je stisnut gumb
         setIsNalog(false);
         showNaloziSvi();
-
     }
     const sendBrNaloga = (brPutnogNaloga) => {
-
         localStorage.setItem("brPutnogNalogaToShow", brPutnogNaloga);
     }
     // ODABIR FILTRA
-
-
     // funkcija koja hendla kada odaberemo filtar u listi
     const [selectedCategoryStatus, setSelectedCategoryStatus] = useState();
     const [selectedCategoryZaposlenik, setSelectedCategoryZaposlenik] = useState();
@@ -80,7 +70,6 @@ const NaloziSvi = () => {
         try {
             const res = await http.post("svi-zahtjevi", JSON.parse("{}"));
             const result = res.data.sviZahtjevi
-
             if (result) {
                 // Add any data transformation
                 setResult(result)
@@ -93,21 +82,18 @@ const NaloziSvi = () => {
             //Handle error
         }
     }, [])
-    useEffect(() => {
-        //Attempt to retreive data
 
+    useEffect(() => {
         fetchData();
-    }
-        , [fetchData]);
+    }, [fetchData]);
 
     useEffect(() => {
         if(result) {
         setNalogList(result);}
     }, [result]);
+
     // Function to get filtered list
     function getFilteredList() {
-
-        // Avoid filter when selectedCategory is null
         setCuvajStatus(selectedCategoryStatus);
         setCuvajZaposlenik(selectedCategoryZaposlenik);
         if (!selectedCategoryStatus && !selectedCategoryZaposlenik && !selectedCategoryBroj) {
@@ -138,111 +124,96 @@ const NaloziSvi = () => {
     // Avoid duplicate function calls with useMemo
     var filteredList = useMemo(getFilteredList, [selectedCategoryStatus, selectedCategoryZaposlenik, selectedCategoryBroj, nalogList]);
 
-
     function handleCategoryChangeStatus(event) {
         setSelectedCategoryStatus(event.target.value);
         setCuvajStatus(selectedCategoryStatus);
-
     }
+
     function handleCategoryChangeZaposlenik(event) {
         setSelectedCategoryZaposlenik(event.target.value);
         setCuvajZaposlenik(selectedCategoryZaposlenik);
-
-
     }
 
     function handleCategoryChangeBroj(event) {
         setSelectedCategoryBroj(event.target.value);
         setCuvajBroj(event.target.value);
-
     }
+
     if (result) {
         var listaImena =  [...new Set(nalogList.map(nalog => nalog.username))]
-
         console.log(listaImena)
     }
 
     return (!result ? <p>Učitava se ...</p> :
-        <>
-            {isShownNaloziSvi && (
-                <div className="naslovnica">
-                    <div className="lista">
-                        <p className="hZ"> Svi nalozi: </p>
-                        <div className="filteri">
-                            <div className="filter-container">
-                                <div>Filtiraj po zaposleniku:</div>
-                                <div>
-                                    <select
-                                        name="category-list"
-                                        id="category-list"
-                                        onChange={handleCategoryChangeZaposlenik}
-                                        value={cuvajZaposlenik}
-
-                                    >
-                                        <option value="">Svi zaposlenici</option>
-
-                                        {
-                                            listaImena.map(( imeZaposlenika ) => {
-                                                return (
-                                                    <option value={imeZaposlenika}>{imeZaposlenika}</option>
-                                                )
-                                            })}
-
-
-                                    </select>
-                                </div>
-                                <div>Filtiraj po statusu:</div>
-                                <div>
-                                    <select
-                                        name="category-list"
-                                        id="category-list"
-                                        onChange={handleCategoryChangeStatus}
-                                        value={cuvajStatus}
-
-
-                                    >
-                                        <option value="">Svi nalozi</option>
-                                        <option value="U_PRIPREMI">U pripremi</option>
-                                        <option value="PODNESEN">Podnesen</option>
-                                        <option value="VRACEN NA DORADU">Vraćen na doradu</option>
-                                        <option value="ODOBREN">Odobren</option>
-                                        <option value="ODBIJEN">Odbijen</option>
-                                    </select>
-                                </div>
+    <>
+        {isShownNaloziSvi && (
+            <div className="naslovnica">
+                <div className="lista">
+                    <p className="hZ"> Svi nalozi: </p>
+                    <div className="filteri">
+                        <div className="filter-container">
+                            <div>Filtiraj po zaposleniku:</div>
+                            <div>
+                                <select
+                                    name="category-list"
+                                    id="category-list"
+                                    onChange={handleCategoryChangeZaposlenik}
+                                    value={cuvajZaposlenik}
+                                >
+                                    <option value="">Svi zaposlenici</option>
+                                    {
+                                        listaImena.map(( imeZaposlenika ) => {
+                                            return (
+                                                <option value={imeZaposlenika}>{imeZaposlenika}</option>
+                                            )
+                                        })}
+                                </select>
+                            </div>
+                            <div>Filtiraj po statusu:</div>
+                            <div>
+                                <select
+                                    name="category-list"
+                                    id="category-list"
+                                    onChange={handleCategoryChangeStatus}
+                                    value={cuvajStatus}
+                                >
+                                    <option value="">Svi nalozi</option>
+                                    <option value="U_PRIPREMI">U pripremi</option>
+                                    <option value="PODNESEN">Podnesen</option>
+                                    <option value="VRACEN NA DORADU">Vraćen na doradu</option>
+                                    <option value="ODOBREN">Odobren</option>
+                                    <option value="ODBIJEN">Odbijen</option>
+                                </select>
                             </div>
                         </div>
-                        <div className="upisBroja">
-                                <label>Broj putnog naloga:</label>
-                                <input value={cuvajBroj} onChange={handleCategoryChangeBroj} />
-                        </div>
-                        <div className="sveNotif"> {filteredList.map(({ brPutnogNaloga, status, username }) => {
-                            return (
-                                <div key={brPutnogNaloga} className="oneNotif">
-                                    <p>
-                                        Putni nalog: {brPutnogNaloga}
-                                    </p>
-                                    <p>
-                                    Status: {status.replace(/_/g, " ")}
-                                    </p>
-                                    <p>
-                                        Ime: {username}
-                                    </p>
-                                    
-                                        <button className="buttons" onClick={()=>{ sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
-                                    
-                                </div>
-
-
-                            )
-                        })}
-                        </div>
                     </div>
-                </div>)}
-
-            {isNalog && (
-                <Nalog sendUgasiNalog={sendUgasiNalog}></Nalog>
-            )}
-        </>
+                    <div className="upisBroja">
+                            <label>Broj putnog naloga:</label>
+                            <input value={cuvajBroj} onChange={handleCategoryChangeBroj} />
+                    </div>
+                    <div className="sveNotif"> {filteredList.map(({ brPutnogNaloga, status, username }) => {
+                        return (
+                            <div key={brPutnogNaloga} className="oneNotif">
+                                <p>
+                                    Putni nalog: {brPutnogNaloga}
+                                </p>
+                                <p>
+                                Status: {status.replace(/_/g, " ")}
+                                </p>
+                                <p>
+                                    Ime: {username}
+                                </p>
+                                <button className="buttons" onClick={()=>{ sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
+                            </div>
+                        )
+                    })}
+                    </div>
+                </div>
+            </div>)}
+        {isNalog && (
+            <Nalog sendUgasiNalog={sendUgasiNalog}></Nalog>
+        )}
+    </>
     );
 }
 export default NaloziSvi;

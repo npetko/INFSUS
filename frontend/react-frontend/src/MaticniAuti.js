@@ -76,30 +76,8 @@ const MaticniAuti = () => {
             } catch (err) {
                 console.log(err.message)
         }}
-        
-        /*
-        auto.regAuto
-        
-        try{
-            http.post("/sluzbeniAuto/izbrisi-auto", document.forms[0]).then(res => {
-                if(res.data === "Uspješno izbrisan auto") {
-                    
-                    ispisiStatus(res.data + " registracije: " + registracija);
-                    setUpdate(true)
-                    
-                } else {
-                    ispisiStatus(res.data);
-                }
-            })
-        } catch (err) {
-            console.log(err.message)
-        }*/
-        
-        
     }
         
-    
-
     const ispisiStatus = (ispis) => {
         document.getElementById("status").innerText = ispis;
     }
@@ -150,11 +128,8 @@ const MaticniAuti = () => {
     }
 
     var filteredList =  useMemo(getFilteredList, [selectedCategory, autiList]);
-
-        
         
 return(
-    
        <>
        <div className="lista">
         <p id="status"></p>
@@ -164,36 +139,28 @@ return(
                                 <button className="submit-resetBtn" onClick={handleOtvoriObrazac}>Dodaj auto</button>
                                 
                             </div>)}
-            </div>
-                
-            
-            
-            <div>
-                {dodajAutoObrazac && (
-                    <div>
-                        <form onSubmit={handleSubmit}>
-                            <div className="inputStyle">
-                                <label className="text">Registracija: </label>
-                                <input type="text" name="regAuto" id="regAuto" required />
-                            </div>
-                            <div className="inputStyle">
-                                <label className="text">Model automobila: </label>
-                                <input type="text" name="model" id="model" required />
+        </div>
+        <div>
+            {dodajAutoObrazac && (
+                <div>
+                    <form onSubmit={handleSubmit}>
+                        <div className="inputStyle">
+                            <label className="text">Registracija: </label>
+                            <input type="text" name="regAuto" id="regAuto" required />
+                        </div>
+                        <div className="inputStyle">
+                            <label className="text">Model automobila: </label>
+                            <input type="text" name="model" id="model" required />
 
-                            </div>
-
-                                
-
-                            <div className="">
-                                <button type="submit" className="submit-resetBtn">Dodaj auto</button>
-                                <button className="submit-resetBtn" onClick={handleZatvoriObrazac}>Odustani</button>
-                            </div>
-                            
-                        </form>
-                    </div>)
-                    
-                }
-            </div>
+                        </div>
+                        <div className="">
+                            <button type="submit" className="submit-resetBtn">Dodaj auto</button>
+                            <button className="submit-resetBtn" onClick={handleZatvoriObrazac}>Odustani</button>
+                        </div>
+                    </form>
+                </div>)
+            }
+        </div>
             {//!dodajAutoObrazac && ()
             }
             <h2>Popis službenih autiju:</h2>
@@ -206,20 +173,19 @@ return(
             <div>
                 <div className="sveNotif">
 
-
                 {filteredList.map((auto) => {
-                        return (
-                            <div className="oneNotif">
-                                <p>Registracija: {auto.regAuto}</p>
-                                <p>Model automobila: {auto.model}</p>
-                                <button className="buttons" onClick={izbrisiAuto(auto.regAuto)}>Ukloni auto</button>
-                                
-                                
-                            </div>)})}
+                    return (
+                        <div className="oneNotif">
+                            <p>Registracija: {auto.regAuto}</p>
+                            <p>Model automobila: {auto.model}</p>
+                            <button className="buttons" onClick={izbrisiAuto(auto.regAuto)}>Ukloni auto</button>
+                            
+                            
+                        </div>)})}
                 </div>
             </div>
-        
-        </div>  </>
+        </div>  
+        </>
 )
 }
 export default MaticniAuti;

@@ -9,15 +9,12 @@ import Zaposlenici from "./Zaposlenici";
 import ZahtjeviZaPromjenuLozinke from "./ZahtjeviZaPromjenuLozinke";
 import ObrazacZaPromjenuLozinkeKodAdmina from "./ObrazacZaPromjenuLozinkeKodAdmina";
 
-
 const Naslovnica = ({ sendOtvoriNalog }) => {
-
     const userData = JSON.parse(localStorage.getItem("userData"));
     const navigate = useNavigate();
     const [isShownZahtjev, setIsShownZahtjev] = useState(false);
     const [isShownObracun, setIsShownObracun] = useState(false);
     const [isShownPromjenaLozinke, setIsShownPromjenaLozinke] = useState(false);
-
 
     const promijeniLozinku = () => {
         //localStorage.setItem("korisnikToShow", JSON.stringify({"username": username}))
@@ -36,10 +33,8 @@ const Naslovnica = ({ sendOtvoriNalog }) => {
     const showNaslovnica = event => {
         setIsShownNaslovnica(true);
     };
-
     const hideNaslovnica = event => {
         setIsShownNaslovnica(false);
-
     }
 
     const sendKorisnik = (username) => {
@@ -54,9 +49,6 @@ const Naslovnica = ({ sendOtvoriNalog }) => {
         //BACKEND: spremi odabrani nalog i na local storage (ovo je onClick kada odaberemo nalog)
         setIsNalog(true);
         setIsShownNaslovnica(false);
-
-
-
     };
     const hideIsNalog = event => {
         setIsNalog(false);
@@ -64,9 +56,7 @@ const Naslovnica = ({ sendOtvoriNalog }) => {
 
     //ugasi nalog gumb
     const sendUgasiNalog = () => { //ugasi nalog kada je stisnut gumb
-
         setIsNalog(false);
-
         setIsShownNaslovnica(true);
         setResult(false);
         navigate("/dashboard")
@@ -92,14 +82,10 @@ const Naslovnica = ({ sendOtvoriNalog }) => {
     }
     //ugasi obracun gumb
     const sendUgasiObracun = () => { //ugasi obracun kada je stisnut gumb
-
-
         setIsObracun(false);
-
         setIsShownNaslovnica(true);
         navigate("/dashboard")
         setResult(false)
-
     }
 
     // za sve
@@ -116,7 +102,6 @@ const Naslovnica = ({ sendOtvoriNalog }) => {
     const [resultMojiObracuni, setResultMojiObracuni] = useState(null);
     const [resultObavijesti, setResultObavijesti] = useState(null)
     const [obavijesti, setObavijesti] = useState([])
-
 
     // za voditelja/zamjenika
     const [resultObracuniZaPotvrdu, setResultObracuniZaPotvrdu] = useState(null)
@@ -185,10 +170,7 @@ const Naslovnica = ({ sendOtvoriNalog }) => {
                                         setResultObracuniZaPotvrdu(resultObracuniZaPotvrdu);
                                         //setResult(true)
                                     }).then(()=>{setResult(true)})
-
-                                }
-
-                                )
+                                })
                             } else {
                                 if (userData.uloga === "RACUNOVODA") {
                                     const res = await http.post("/obracun/svi-obracuni/", JSON.parse("{\"status\":\"SPREMAN_ZA_OBRACUN\"}")).then((resZahtjeviRadnika) => {
@@ -208,33 +190,21 @@ const Naslovnica = ({ sendOtvoriNalog }) => {
                                     }
                                 }
                             }
-
                         }
-
                     })
-
                 })
-
             })
-
-
             console.log(result)
-
-
         }
         catch (error) {
-            //Handle error
             console.log(error)
         }
     }, [])
-
 
     useEffect(() => {
         fetchDataBasic();
     }
         , [fetchDataBasic]);
-
-
     
     useEffect(() => {
         if (result == true) {
@@ -256,660 +226,508 @@ const Naslovnica = ({ sendOtvoriNalog }) => {
         }
 
     }, [result]);
-   
-
-    //     const [BrNaloga, setBrNalog] = useState();
-    // const [useState1, setUseState1] = useState(true);
     const prikaziObavijest = (brPutnogNaloga) => {
         return (resultObavijesti[brPutnogNaloga]);
     }
 
     useEffect(() => {
         fetchDataBasic();
-    }
-        , [isShownNaslovnica]);
+    }, [isShownNaslovnica]);
 
-        if(result===true) {
-            console.log(resultZaObracun)
-        }
+    if(result===true) {
+        console.log(resultZaObracun)
+    }
     return ((result == false || !result) ? <p>Učitava se ...</p> :
         userData.uloga == "ZAPOSLENIK" ?
-            <>
-                {isShownNaslovnica && (
-                    <div className="naslovnica">
-                        {/*isShownPromjenaLozinke && (
-
-                        )*/}
-                        <div className="lista">
-
-                            { // MOJI ZAHTJEVI "u pripremi" 
-                            }
-                            {
-                                //BACKEND: povuci ime i prezime prema korisnickom imenu iz zahtjeva i dodati dolje
-                            }
-                            <p className="hZ"> Moji zahtjevi u pripremi: </p>
-                            {uPripremi.length > 0 && (
-                                <div className="sveNotif"> {uPripremi.map(({ brPutnogNaloga, status }) => {
-                                    return (
-                                        <div key={brPutnogNaloga} className="oneNotif">
-                                            <p>
-                                                Putni nalog: {brPutnogNaloga}
-                                            </p>
-                                            {/*<p> 
-                                            Zaposlenik: {ime} {prezime}
+        <>
+            {isShownNaslovnica && (
+                <div className="naslovnica">
+                    <div className="lista">
+                        <p className="hZ"> Moji zahtjevi u pripremi: </p>
+                        {uPripremi.length > 0 && (
+                            <div className="sveNotif"> {uPripremi.map(({ brPutnogNaloga, status }) => {
+                                return (
+                                    <div key={brPutnogNaloga} className="oneNotif">
+                                        <p>
+                                            Putni nalog: {brPutnogNaloga}
                                         </p>
-                                        <p> 
-                                            Putovanje: {grad} {drzava}
-                                        </p
-                                        */}
-                                            <p>
-                                                Status: {status}
-                                            </p>
-
-                                            {
-                                                <button id={brPutnogNaloga} className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>}
-                                        </div>
-
-
-                                    )
-                                })}
-                                </div>)}
-                            {uPripremi.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
-                            { // MOJI ZAHTJEVI "vraćeni na doradu"
-                            }
-                        </div>
-                        <div className="lista">
-                            <p className="hZ"> Moji zahtjevi vraćeni na doradu: </p>
-                            {zaDoradu.length > 0 && (
-                                <div className="sveNotif"> {zaDoradu.map(({ brPutnogNaloga, status }) => {
-
-                                    //BACKEND: povuci ime i prezime prema korisnickom imenu iz zahtjeva i dodati dolje
-                                    //BACKEND: let ime = povuci i let prezime = povuci                                    
-                                    return (
-                                        <div key={brPutnogNaloga} className="oneNotif">
-                                            <p>
-                                                Putni nalog: {brPutnogNaloga}
-                                            </p>
-                                            {/*<p> 
-                                            Zaposlenik: {ime} {prezime}
+                                        <p>
+                                            Status: {status}
                                         </p>
-                                        <p> 
-                                            Putovanje: {grad} {drzava}
-                                        </p
-                                        */}
-
-                                            <p>
-                                                Status: {status}
-                                            </p>
-                                            {
-                                                <button id={brPutnogNaloga} className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>}
-                                        </div>
-
-
-                                    )
-                                })}
-                                </div>)
-                            }
-                            {zaDoradu.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
-                            { // MOJI ZAHTJEVI odobren ali nema ga u obracunima
-                            }
-                            <p className="hZ"> Moji zahtjevi koje moram poslati na obračun: </p>
-                            {zaObracun.length > 0 && (
-                                <div className="sveNotif"> {zaObracun.map(({ brPutnogNaloga, status }) => {
-                                    //BACKEND: povuci ime i prezime prema korisnickom imenu iz zahtjeva i dodati dolje
-                                    //BACKEND: let ime = povuci i let prezime = povuci                                    
-                                    return (
-                                        <div key={brPutnogNaloga} className="oneNotif">
-                                            <p>
-                                                Putni nalog: {brPutnogNaloga}
-                                            </p>
-                                            {/*<p> 
-                                            Zaposlenik: {ime} {prezime}
+                                        {<button id={brPutnogNaloga} className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>}
+                                    </div>
+                                )
+                            })}
+                            </div>)}
+                        {uPripremi.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
+                    </div>
+                    <div className="lista">
+                        <p className="hZ"> Moji zahtjevi vraćeni na doradu: </p>
+                        {zaDoradu.length > 0 && (
+                            <div className="sveNotif"> {zaDoradu.map(({ brPutnogNaloga, status }) => {                             
+                                return (
+                                    <div key={brPutnogNaloga} className="oneNotif">
+                                        <p>
+                                            Putni nalog: {brPutnogNaloga}
                                         </p>
-                                        <p> 
-                                            Putovanje: {grad} {drzava}
-                                        </p
-                                        */}
-                                            <p>
-                                                Status: {status}
-                                            </p>
-                                            {<p>
-                                                {prikaziObavijest(brPutnogNaloga)}
-                                            </p>}
-                                            {
-                                                <button id={brPutnogNaloga} className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
-                                            }
-                                        </div>
+                                        <p>
+                                            Status: {status}
+                                        </p>
+                                        {
+                                            <button id={brPutnogNaloga} className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>}
+                                    </div>
+                                )
+                            })}
+                            </div>)
+                        }
+                        {zaDoradu.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
+                        <p className="hZ"> Moji zahtjevi koje moram poslati na obračun: </p>
+                        {zaObracun.length > 0 && (
+                            <div className="sveNotif"> {zaObracun.map(({ brPutnogNaloga, status }) => {                               
+                                return (
+                                    <div key={brPutnogNaloga} className="oneNotif">
+                                        <p>
+                                            Putni nalog: {brPutnogNaloga}
+                                        </p>
+                                        <p>
+                                            Status: {status}
+                                        </p>
+                                        {<p>
+                                            {prikaziObavijest(brPutnogNaloga)}
+                                        </p>}
+                                        {
+                                            <button id={brPutnogNaloga} className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
+                                        }
+                                    </div>
+                                )
+                            })}
+                            </div>)}
+                        {zaObracun.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
+                    </div>
+                </div>
+            )}
+            {isNalog && (
+                <Nalog sendUgasiNalog={sendUgasiNalog}></Nalog>
+            )}
+        </> : userData.uloga == "VODITELJ" ?
+        <>
+            {isShownNaslovnica && (
+                <div className="naslovnica">
+                    <div className="lista">
+                        <p className="hZ"> Moji zahtjevi u pripremi: </p>
+                        {uPripremi.length > 0 && (
+                            <div className="sveNotif"> {uPripremi.map(({ brPutnogNaloga, status }) => {
+                                return (
+                                    <div key={brPutnogNaloga} className="oneNotif">
+                                        <p>
+                                            Putni nalog: {brPutnogNaloga}
+                                        </p>
+                                        <p>
+                                            Status: {status}
+                                        </p>
+                                        {
+                                            <button className="buttons" onClick={()=>{ sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
+                                        }
+                                    </div>
+                                )
+                            })}
+                            </div>)}
+                        {uPripremi.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
+                    </div>
+                    <div className="lista">
+                        <p className="hZ"> Moji zahtjevi vraćeni na doradu: </p>
+                        {zaDoradu.length > 0 && (
+                            <div className="sveNotif"> {zaDoradu.map(({ brPutnogNaloga, status }) => {
+                                return (
+                                    <div key={brPutnogNaloga} className="oneNotif">
+                                        <p>
+                                            Putni nalog: {brPutnogNaloga}
+                                        </p>
+                                        {
+                                            <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
+                                        }
+                                    </div>
 
-
-
-                                    )
-                                })}
-                                </div>)}
-                            {zaObracun.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
-                            { // potvrdi radnicima putovanja ZAHTJEV "podnesen"
-                            }
-
-                        </div>
+                                )
+                            })}
+                            </div>)}
+                        {zaDoradu.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
+                        <p className="hZ"> Moji zahtjevi koje moram poslati na obračun: </p>
+                        {zaObracun.length > 0 && (
+                            <div className="sveNotif"> {zaObracun.map(({ brPutnogNaloga, status }) => {
+                                return (
+                                    <div key={brPutnogNaloga} className="oneNotif">
+                                        <p>
+                                            Putni nalog: {brPutnogNaloga}
+                                        </p>
+                                        <p>
+                                            {localStorage.getItem(brPutnogNaloga)}
+                                        </p>
+                                        {
+                                            <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
+                                        }
+                                    </div>
+                                )
+                            })}
+                            </div>)}
+                        {zaObracun.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
+                    </div>
+                    <div className="lista">
+                        <p className="hZ"> Potvrdi zahtjeve: </p>
+                        {zahtjeviTima.length > 0 && (
+                            <div className="sveNotif"> {zahtjeviTima.map(({ brPutnogNaloga, status }) => {
+                                return (
+                                    <div key={brPutnogNaloga} className="oneNotif">
+                                        <p>
+                                            Putni nalog: {brPutnogNaloga}
+                                        </p>
+                                        <p>
+                                            Status: {status}
+                                        </p>
+                                        {
+                                            <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
+                                        }
+                                    </div>
+                                )
+                            })}
+                            </div>)}
+                        {zahtjeviTima.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
 
                     </div>
-
-                )}
-                {isNalog && (
-                    <Nalog sendUgasiNalog={sendUgasiNalog}></Nalog>
-                )}
-
-            </> : userData.uloga == "VODITELJ" ?
-
-                <>
-                    {isShownNaslovnica && (
-                        <div className="naslovnica">
-                            <div className="lista">
-
-                                { // MOJI ZAHTJEVI "u pripremi" 
-                                }
-                                <p className="hZ"> Moji zahtjevi u pripremi: </p>
-                                {uPripremi.length > 0 && (
-                                    <div className="sveNotif"> {uPripremi.map(({ brPutnogNaloga, status }) => {
-                                        return (
-                                            <div key={brPutnogNaloga} className="oneNotif">
-                                                <p>
-                                                    Putni nalog: {brPutnogNaloga}
-                                                </p>
-                                                <p>
-                                                    Status: {status}
-                                                </p>
-                                                {
-                                                    <button className="buttons" onClick={()=>{ sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
-
-                                                }
-                                            </div>
-
-
-                                        )
-                                    })}
-                                    </div>)}
-                                {uPripremi.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
-
-                                { // MOJI ZAHTJEVI "vraćeni na doradu"
-                                }
-                            </div>
-                            <div className="lista">
-                                <p className="hZ"> Moji zahtjevi vraćeni na doradu: </p>
-                                {zaDoradu.length > 0 && (
-                                    <div className="sveNotif"> {zaDoradu.map(({ brPutnogNaloga, status }) => {
-                                        return (
-                                            <div key={brPutnogNaloga} className="oneNotif">
-                                                <p>
-                                                    Putni nalog: {brPutnogNaloga}
-                                                </p>
-                                                {
-                                                    <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
-                                                }
-                                            </div>
-
-                                        )
-                                    })}
-                                    </div>)}
-                                {zaDoradu.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
-                                { // MOJI ZAHTJEVI "cekaju da posaljem na obracun" dakle ili u pripremi ili uopće nepodneseni
-                                }
-                                <p className="hZ"> Moji zahtjevi koje moram poslati na obračun: </p>
-                                {zaObracun.length > 0 && (
-                                    <div className="sveNotif"> {zaObracun.map(({ brPutnogNaloga, status }) => {
-                                        return (
-                                            <div key={brPutnogNaloga} className="oneNotif">
-                                                <p>
-                                                    Putni nalog: {brPutnogNaloga}
-                                                </p>
-                                                <p>
-                                                    {localStorage.getItem(brPutnogNaloga)}
-                                                </p>
-                                                {
-                                                    <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
-                                                }
-                                            </div>
-
-
-
-                                        )
-                                    })}
-                                    </div>)}
-                                {zaObracun.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
-                                { // potvrdi radnicima putovanja ZAHTJEV "podnesen"
-                                }
-                            </div>
-                            <div className="lista">
-                                <p className="hZ"> Potvrdi zahtjeve: </p>
-                                {zahtjeviTima.length > 0 && (
-                                    <div className="sveNotif"> {zahtjeviTima.map(({ brPutnogNaloga, status }) => {
-                                        return (
-                                            <div key={brPutnogNaloga} className="oneNotif">
-                                                <p>
-                                                    Putni nalog: {brPutnogNaloga}
-                                                </p>
-                                                <p>
-                                                    Status: {status}
-                                                </p>
-                                                {
-                                                    <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
-                                                }
-                                            </div>
-
-
-                                        )
-                                    })}
-                                    </div>)}
-                                {zahtjeviTima.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
-
-                            </div>
-                            <div className="lista">
-                                <p className="hZ"> Potvrdi obračune: </p>
-                                {obracuniZaPotvrdu.length > 0 && (
-                                    <div className="sveNotif"> {obracuniZaPotvrdu.map(({ brPutnogNaloga, statusObracuna }) => {
-                                        return (
-                                            <div key={brPutnogNaloga} className="oneNotif">
-                                                <p>
-                                                    Putni nalog: {brPutnogNaloga}
-                                                </p>
-                                                <p>
-                                                    Status: {statusObracuna}
-                                                </p>
-                                                {
-                                                    <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsObracun(); }}>Otvori nalog</button>
-                                                }
-                                            </div>
-
-
-                                        )
-                                    })}
-                                    </div>)}
-                                {obracuniZaPotvrdu.length == 0 && <p>{"Nema obračuna za prikaz."}</p>}
-
-                            </div>
-                        </div>)}
-                    {isNalog && (
-                        <Nalog sendUgasiNalog={sendUgasiNalog}></Nalog>
-                    )}
-                    {isObracun && (
-                        <Obracun sendUgasiObracun={sendUgasiObracun}></Obracun>
-                    )}
-                </> : userData.uloga == "ZAMJENIK" ?
-                    <>
-                        {isShownNaslovnica && (
-                            <div className="naslovnica">
-                                <div className="lista">
-
-                                    { // MOJI ZAHTJEVI "u pripremi" 
-                                    }
-
-                                    <p className="hZ"> Moji zahtjevi u pripremi: </p>
-                                    {uPripremi.length > 0 && (
-                                        <div className="sveNotif"> {uPripremi.map(({ brPutnogNaloga, status }) => {
-                                            return (
-                                                <div key={brPutnogNaloga} className="oneNotif">
-                                                    <p>
-                                                        Putni nalog: {brPutnogNaloga}
-                                                    </p>
-                                                    <p>
-                                                        Status: {status}
-                                                    </p>
-                                                    {
-                                                        <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
-                                                    }
-                                                </div>
-
-
-                                            )
-                                        })}
-                                        </div>)}
-                                    {uPripremi.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
-
-                                    { // MOJI ZAHTJEVI "vraćeni na doradu"
-                                    }
-                                </div>
-                                <div className="lista">
-                                    <p className="hZ"> Moji zahtjevi vraćeni na doradu: </p>
-                                    {zaDoradu.length > 0 && (
-                                        <div className="sveNotif"> {zaDoradu.map(({ brPutnogNaloga, status }) => {
-                                            return (
-                                                <div key={brPutnogNaloga} className="oneNotif">
-                                                    <p>
-                                                        Putni nalog: {brPutnogNaloga}
-                                                    </p>
-                                                    <p>
-                                                        Status: {status}
-                                                    </p>
-                                                    {
-                                                        <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
-                                                    }
-                                                </div>
-
-
-                                            )
-                                        })}
-                                        </div>)}
-                                    {zaDoradu.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
-
-                                    { // MOJI ZAHTJEVI "cekaju da posaljem na obracun" dakle ili u pripremi ili uopće nepodneseni
-                                    }
-                                    <p className="hZ"> Moji zahtjevi koje moram poslati na obračun: </p>
-                                    {zaObracun.length > 0 && (
-                                        <div className="sveNotif"> {zaObracun.map(({ brPutnogNaloga, status }) => {
-                                            return (
-                                                <div key={brPutnogNaloga} className="oneNotif">
-                                                    <p>
-                                                        Putni nalog: {brPutnogNaloga}
-                                                    </p>
-                                                    <p>
-                                                        Status: {status}
-                                                    </p>
-                                                    {<p>
-                                                        {prikaziObavijest(brPutnogNaloga)}
-                                                    </p>}
-                                                    {
-                                                        <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
-                                                    }
-                                                </div>
-
-
-                                            )
-                                        })}
-                                        </div>)}
-                                    {zaObracun.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
-
-                                    { // potvrdi radnicima putovanja ZAHTJEV "podnesen"
-                                    }
-                                </div>
-                                <div className="lista">
-                                    <p className="hZ"> Potvrdi zahtjeve: </p>
-                                    {zahtjeviTima.length > 0 && (
-                                        <div className="sveNotif"> {zahtjeviTima.map(({ brPutnogNaloga, status }) => {
-                                            return (
-                                                <div key={brPutnogNaloga} className="oneNotif">
-                                                    <p>
-                                                        Putni nalog: {brPutnogNaloga}
-                                                    </p>
-                                                    <p>
-                                                        Status: {status}
-                                                    </p>
-                                                    {
-                                                        <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
-                                                    }
-                                                </div>
-
-
-                                            )
-                                        })}
-                                        </div>)}
-                                    {zahtjeviTima.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
-
-                                </div>
-                                <div className="lista">
-                                    <p className="hZ"> Potvrdi obračune: </p>
-                                    {obracuniZaPotvrdu.length > 0 && (
-                                        <div className="sveNotif"> {obracuniZaPotvrdu.map(({ brPutnogNaloga, statusObracuna }) => {
-                                            return (
-                                                <div key={brPutnogNaloga} className="oneNotif">
-                                                    <p>
-                                                        Putni nalog: {brPutnogNaloga}
-                                                    </p>
-                                                    <p>
-                                                        Status: {statusObracuna}
-                                                    </p>
-                                                    {
-                                                        <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsObracun(); }}>Otvori nalog</button>
-                                                    }
-                                                </div>
-
-
-                                            )
-                                        })}
-                                        </div>)}
-                                    {obracuniZaPotvrdu.length == 0 && <p>{"Nema obračuna za prikaz."}</p>}
-
-                                </div>
+                    <div className="lista">
+                        <p className="hZ"> Potvrdi obračune: </p>
+                        {obracuniZaPotvrdu.length > 0 && (
+                            <div className="sveNotif"> {obracuniZaPotvrdu.map(({ brPutnogNaloga, statusObracuna }) => {
+                                return (
+                                    <div key={brPutnogNaloga} className="oneNotif">
+                                        <p>
+                                            Putni nalog: {brPutnogNaloga}
+                                        </p>
+                                        <p>
+                                            Status: {statusObracuna}
+                                        </p>
+                                        {
+                                            <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsObracun(); }}>Otvori nalog</button>
+                                        }
+                                    </div>
+                                )
+                            })}
                             </div>)}
-                        {isNalog && (
-                            <Nalog sendUgasiNalog={sendUgasiNalog}></Nalog>
-                        )}
-                        {isObracun && (
-                            <Obracun sendUgasiObracun={sendUgasiObracun}></Obracun>
-                        )}
-                    </> :
-
-                    userData.uloga == "RACUNOVODA" ?
-
-
-                        <>
-                            {isShownNaslovnica && (
-                                <div className="naslovnica">
-                                    <div className="lista">
-
-                                        { // MOJI ZAHTJEVI "u pripremi" 
-                                        }
-                                        <p className="hZ"> Moji zahtjevi u pripremi: </p>
-                                        {uPripremi.length > 0 && (
-                                            <div className="sveNotif"> {uPripremi.map(({ brPutnogNaloga, status }) => {
-                                                return (
-                                                    <div key={brPutnogNaloga} className="oneNotif">
-                                                        <p>
-                                                            Putni nalog: {brPutnogNaloga}
-                                                        </p>
-                                                        <p>
-                                                            Status: {status}
-                                                        </p>
-                                                        {
-                                                            <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
-                                                        }
-                                                    </div>
-
-
-                                                )
-                                            })}
-                                            </div>)}
-                                        {uPripremi.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
-                                        { // MOJI ZAHTJEVI "vraćeni na doradu"
+                        {obracuniZaPotvrdu.length == 0 && <p>{"Nema obračuna za prikaz."}</p>}
+                    </div>
+                </div>)}
+            {isNalog && (
+                <Nalog sendUgasiNalog={sendUgasiNalog}></Nalog>
+            )}
+            {isObracun && (
+                <Obracun sendUgasiObracun={sendUgasiObracun}></Obracun>
+            )}
+        </> : userData.uloga == "ZAMJENIK" ?
+        <>
+            {isShownNaslovnica && (
+                <div className="naslovnica">
+                    <div className="lista">
+                        <p className="hZ"> Moji zahtjevi u pripremi: </p>
+                        {uPripremi.length > 0 && (
+                            <div className="sveNotif"> {uPripremi.map(({ brPutnogNaloga, status }) => {
+                                return (
+                                    <div key={brPutnogNaloga} className="oneNotif">
+                                        <p>
+                                            Putni nalog: {brPutnogNaloga}
+                                        </p>
+                                        <p>
+                                            Status: {status}
+                                        </p>
+                                        {
+                                            <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
                                         }
                                     </div>
-                                    <div className="lista">
-                                        <p className="hZ"> Moji zahtjevi vraćeni na doradu: </p>
-                                        {zaDoradu.length > 0 && (
-                                            <div className="sveNotif"> {zaDoradu.map(({ brPutnogNaloga, status }) => {
-                                                return (
-                                                    <div key={brPutnogNaloga} className="oneNotif">
-                                                        <p>
-                                                            Putni nalog: {brPutnogNaloga}
-                                                        </p>
-                                                        <p>
-                                                            Status: {status}
-                                                        </p>
-                                                        {
-                                                            <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
-                                                        }
-                                                    </div>
-
-
-                                                )
-                                            })}
-                                            </div>)}
-                                        {zaDoradu.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
-
-                                        { // MOJI ZAHTJEVI "cekaju da posaljem na obracun" dakle ili u pripremi ili uopće nepodneseni
-                                        }
-                                        <p className="hZ"> Moji zahtjevi koje moram poslati na obračun: </p>
-                                        {zaObracun.length > 0 && (
-                                            <div className="sveNotif"> {zaObracun.map(({ brPutnogNaloga, status }) => {
-                                                return (
-                                                    <div key={brPutnogNaloga} className="oneNotif">
-                                                        <p>
-                                                            Putni nalog: {brPutnogNaloga}
-                                                        </p>
-                                                        <p>
-                                                            Status: {status}
-                                                        </p>
-                                                        {<p>
-                                                            {prikaziObavijest(brPutnogNaloga)}
-                                                        </p>}
-                                                        {
-                                                            <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
-                                                        }
-                                                    </div>
-
-
-                                                )
-                                            })}
-                                            </div>)}
-                                        {zaObracun.length == 0 && <p>Nema zahtjeva za prikaz.</p>}
-
-                                        { // potvrdi radnicima putovanja ZAHTJEV "podnesen"
+                                )
+                            })}
+                            </div>)}
+                        {uPripremi.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
+                    </div>
+                    <div className="lista">
+                        <p className="hZ"> Moji zahtjevi vraćeni na doradu: </p>
+                        {zaDoradu.length > 0 && (
+                            <div className="sveNotif"> {zaDoradu.map(({ brPutnogNaloga, status }) => {
+                                return (
+                                    <div key={brPutnogNaloga} className="oneNotif">
+                                        <p>
+                                            Putni nalog: {brPutnogNaloga}
+                                        </p>
+                                        <p>
+                                            Status: {status}
+                                        </p>
+                                        {
+                                            <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
                                         }
                                     </div>
-                                    <div className="lista">
-                                        <p className="hZ"> Obračuni za odobrenje: </p>
-                                        {zahtjeviRadnika.length > 0 && (
-                                            <div className="sveNotif"> {zahtjeviRadnika.map(({ brPutnogNaloga, status }) => {
-                                                return (
-                                                    <div key={brPutnogNaloga} className="oneNotif">
-                                                        <p>
-                                                            Putni nalog: {brPutnogNaloga}
-                                                        </p>
-                                                        <p>
-                                                            Status: {status}
-                                                        </p>
-                                                        {
-                                                            <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsObracun(); }}>Otvori nalog</button>
-                                                        }
-                                                    </div>
-
-
-                                                )
-                                            })}
-                                            </div>)}
-                                        {zahtjeviRadnika.length == 0 && <p>Nema zahtjeva za prikaz.</p>}
-
+                                )
+                            })}
+                            </div>)}
+                        {zaDoradu.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
+                        <p className="hZ"> Moji zahtjevi koje moram poslati na obračun: </p>
+                        {zaObracun.length > 0 && (
+                            <div className="sveNotif"> {zaObracun.map(({ brPutnogNaloga, status }) => {
+                                return (
+                                    <div key={brPutnogNaloga} className="oneNotif">
+                                        <p>
+                                            Putni nalog: {brPutnogNaloga}
+                                        </p>
+                                        <p>
+                                            Status: {status}
+                                        </p>
+                                        {<p>
+                                            {prikaziObavijest(brPutnogNaloga)}
+                                        </p>}
+                                        {
+                                            <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
+                                        }
                                     </div>
-                                </div>)}
-                            {isNalog && (
-                                <Nalog sendUgasiNalog={sendUgasiNalog}></Nalog>
-                            )}
-                            {isObracun && (
-                                <Obracun sendUgasiObracun={sendUgasiObracun}></Obracun>
-                            )}
-                        </> : userData.uloga == "ADMIN" ?
-                            <>
-                                {isShownNaslovnica && (
-                                    <div className="naslovnica">
-                                        <div className="lista">
-                                            { // MOJI ZAHTJEVI "u pripremi" 
-                                            }
-                                            <p className="hZ"> Zahtjevi za promjenom lozinke: </p>
-                                            {lozinke.length > 0 && (
-                                                <div className="sveNotif"> {lozinke.map(({ username }) => {
-                                                    return (
-                                                        <div key={username} className="oneNotif">
-                                                            <p>
-                                                                Korisničko ime: @{username}
-                                                            </p>
-                                                            
-                                                            {
-                                                                <button className="buttons" onClick={() => {sendKorisnik(username); promijeniLozinku(); }}>Promijeni lozinku</button>
-                                                            }
-                                                        </div>
-
-
-                                                    )
-                                                })}
-                                                </div>)}
-                                            {lozinke.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
-                                            <p className="hZ"> Moji zahtjevi u pripremi: </p>
-                                            {uPripremi.length > 0 && (
-                                                <div className="sveNotif"> {uPripremi.map(({ brPutnogNaloga, status }) => {
-                                                    return (
-                                                        <div key={brPutnogNaloga} className="oneNotif">
-                                                            <p>
-                                                                Putni nalog: {brPutnogNaloga}
-                                                            </p>
-                                                            <p>
-                                                                Status: {status}
-                                                            </p>
-                                                            {
-                                                                <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
-                                                            }
-                                                        </div>
-
-
-                                                    )
-                                                })}
-                                                </div>)}
-                                            {uPripremi.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
-                                            { // MOJI ZAHTJEVI "vraćeni na doradu"
-                                            }
-                                        </div>
-                                        <div className="lista">
-                                            <p className="hZ"> Moji zahtjevi vraćeni na doradu: </p>
-                                            {zaDoradu.length > 0 && (
-                                                <div className="sveNotif"> {zaDoradu.map(({ brPutnogNaloga, status }) => {
-                                                    return (
-                                                        <div key={brPutnogNaloga} className="oneNotif">
-                                                            <p>
-                                                                Putni nalog: {brPutnogNaloga}
-                                                            </p>
-                                                            <p>
-                                                                Status: {status}
-                                                            </p>
-                                                            {
-                                                                <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
-                                                            }
-                                                        </div>
-
-
-                                                    )
-                                                })}
-                                                </div>)}
-                                            {zaDoradu.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
-
-                                            { // MOJI ZAHTJEVI "cekaju da posaljem na obracun" dakle ili u pripremi ili uopće nepodneseni
-                                            }
-                                            <p className="hZ"> Moji zahtjevi koje moram poslati na obračun: </p>
-                                            {zaObracun.length > 0 && (
-                                                <div className="sveNotif"> {zaObracun.map(({ brPutnogNaloga, status }) => {
-                                                    return (
-                                                        <div key={brPutnogNaloga} className="oneNotif">
-                                                            <p>
-                                                                Putni nalog: {brPutnogNaloga}
-                                                            </p>
-                                                            <p>
-                                                                Status: {status}
-                                                            </p>
-                                                            {<p>
-                                                                {prikaziObavijest(brPutnogNaloga)}
-                                                            </p>}
-                                                            {
-                                                                <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
-                                                            }
-                                                        </div>
-
-
-                                                    )
-                                                })}
-                                                </div>)}
-                                            {zaObracun.length == 0 && <p>Nema zahtjeva za prikaz.</p>}
-
-                                            { // potvrdi radnicima putovanja ZAHTJEV "podnesen"
-                                            }
-                                        </div>
-
-
-                                    </div>)}
-                                    {isShownPromjenaLozinke &&(
-                                        <ObrazacZaPromjenuLozinkeKodAdmina ugasiPromjenuLozinke={ugasiPromjenuLozinke}></ObrazacZaPromjenuLozinkeKodAdmina>
-                                    )}
-                                {isNalog && (
-                                    <Nalog sendUgasiNalog={sendUgasiNalog}></Nalog>
-                                )}
-                            </> : <p>Greška ...</p>)
-
+                                )
+                            })}
+                            </div>)}
+                        {zaObracun.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
+                    </div>
+                    <div className="lista">
+                        <p className="hZ"> Potvrdi zahtjeve: </p>
+                        {zahtjeviTima.length > 0 && (
+                            <div className="sveNotif"> {zahtjeviTima.map(({ brPutnogNaloga, status }) => {
+                                return (
+                                    <div key={brPutnogNaloga} className="oneNotif">
+                                        <p>
+                                            Putni nalog: {brPutnogNaloga}
+                                        </p>
+                                        <p>
+                                            Status: {status}
+                                        </p>
+                                        {
+                                            <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
+                                        }
+                                    </div>
+                                )
+                            })}
+                            </div>)}
+                        {zahtjeviTima.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
+                    </div>
+                    <div className="lista">
+                        <p className="hZ"> Potvrdi obračune: </p>
+                        {obracuniZaPotvrdu.length > 0 && (
+                            <div className="sveNotif"> {obracuniZaPotvrdu.map(({ brPutnogNaloga, statusObracuna }) => {
+                                return (
+                                    <div key={brPutnogNaloga} className="oneNotif">
+                                        <p>
+                                            Putni nalog: {brPutnogNaloga}
+                                        </p>
+                                        <p>
+                                            Status: {statusObracuna}
+                                        </p>
+                                        {
+                                            <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsObracun(); }}>Otvori nalog</button>
+                                        }
+                                    </div>
+                                )
+                            })}
+                            </div>)}
+                        {obracuniZaPotvrdu.length == 0 && <p>{"Nema obračuna za prikaz."}</p>}
+                    </div>
+                </div>)}
+            {isNalog && (
+                <Nalog sendUgasiNalog={sendUgasiNalog}></Nalog>
+            )}
+            {isObracun && (
+                <Obracun sendUgasiObracun={sendUgasiObracun}></Obracun>
+            )}
+        </> : userData.uloga == "RACUNOVODA" ?
+        <>
+            {isShownNaslovnica && (
+                <div className="naslovnica">
+                    <div className="lista">
+                        <p className="hZ"> Moji zahtjevi u pripremi: </p>
+                        {uPripremi.length > 0 && (
+                            <div className="sveNotif"> {uPripremi.map(({ brPutnogNaloga, status }) => {
+                                return (
+                                    <div key={brPutnogNaloga} className="oneNotif">
+                                        <p>
+                                            Putni nalog: {brPutnogNaloga}
+                                        </p>
+                                        <p>
+                                            Status: {status}
+                                        </p>
+                                        {
+                                            <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
+                                        }
+                                    </div>
+                                )
+                            })}
+                            </div>)}
+                        {uPripremi.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
+                    </div>
+                    <div className="lista">
+                        <p className="hZ"> Moji zahtjevi vraćeni na doradu: </p>
+                        {zaDoradu.length > 0 && (
+                            <div className="sveNotif"> {zaDoradu.map(({ brPutnogNaloga, status }) => {
+                                return (
+                                    <div key={brPutnogNaloga} className="oneNotif">
+                                        <p>
+                                            Putni nalog: {brPutnogNaloga}
+                                        </p>
+                                        <p>
+                                            Status: {status}
+                                        </p>
+                                        {
+                                            <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
+                                        }
+                                    </div>
+                                )
+                            })}
+                            </div>)}
+                        {zaDoradu.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
+                        <p className="hZ"> Moji zahtjevi koje moram poslati na obračun: </p>
+                        {zaObracun.length > 0 && (
+                            <div className="sveNotif"> {zaObracun.map(({ brPutnogNaloga, status }) => {
+                                return (
+                                    <div key={brPutnogNaloga} className="oneNotif">
+                                        <p>
+                                            Putni nalog: {brPutnogNaloga}
+                                        </p>
+                                        <p>
+                                            Status: {status}
+                                        </p>
+                                        {<p>
+                                            {prikaziObavijest(brPutnogNaloga)}
+                                        </p>}
+                                        {
+                                            <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
+                                        }
+                                    </div>
+                                )
+                            })}
+                            </div>)}
+                        {zaObracun.length == 0 && <p>Nema zahtjeva za prikaz.</p>}
+                    </div>
+                    <div className="lista">
+                        <p className="hZ"> Obračuni za odobrenje: </p>
+                        {zahtjeviRadnika.length > 0 && (
+                            <div className="sveNotif"> {zahtjeviRadnika.map(({ brPutnogNaloga, status }) => {
+                                return (
+                                    <div key={brPutnogNaloga} className="oneNotif">
+                                        <p>
+                                            Putni nalog: {brPutnogNaloga}
+                                        </p>
+                                        <p>
+                                            Status: {status}
+                                        </p>
+                                        {
+                                            <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsObracun(); }}>Otvori nalog</button>
+                                        }
+                                    </div>
+                                )
+                            })}
+                            </div>)}
+                        {zahtjeviRadnika.length == 0 && <p>Nema zahtjeva za prikaz.</p>}
+                    </div>
+                </div>)}
+            {isNalog && (
+                <Nalog sendUgasiNalog={sendUgasiNalog}></Nalog>
+            )}
+            {isObracun && (
+                <Obracun sendUgasiObracun={sendUgasiObracun}></Obracun>
+            )}
+        </> : userData.uloga == "ADMIN" ?
+        <>
+            {isShownNaslovnica && (
+                <div className="naslovnica">
+                    <div className="lista">
+                        <p className="hZ"> Zahtjevi za promjenom lozinke: </p>
+                        {lozinke.length > 0 && (
+                            <div className="sveNotif"> {lozinke.map(({ username }) => {
+                                return (
+                                    <div key={username} className="oneNotif">
+                                        <p>
+                                            Korisničko ime: @{username}
+                                        </p>
+                                        
+                                        {
+                                            <button className="buttons" onClick={() => {sendKorisnik(username); promijeniLozinku(); }}>Promijeni lozinku</button>
+                                        }
+                                    </div>
+                                )
+                            })}
+                            </div>)}
+                        {lozinke.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
+                        <p className="hZ"> Moji zahtjevi u pripremi: </p>
+                        {uPripremi.length > 0 && (
+                            <div className="sveNotif"> {uPripremi.map(({ brPutnogNaloga, status }) => {
+                                return (
+                                    <div key={brPutnogNaloga} className="oneNotif">
+                                        <p>
+                                            Putni nalog: {brPutnogNaloga}
+                                        </p>
+                                        <p>
+                                            Status: {status}
+                                        </p>
+                                        {
+                                            <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
+                                        }
+                                    </div>
+                                )
+                            })}
+                            </div>)}
+                        {uPripremi.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
+                    </div>
+                    <div className="lista">
+                        <p className="hZ"> Moji zahtjevi vraćeni na doradu: </p>
+                        {zaDoradu.length > 0 && (
+                            <div className="sveNotif"> {zaDoradu.map(({ brPutnogNaloga, status }) => {
+                                return (
+                                    <div key={brPutnogNaloga} className="oneNotif">
+                                        <p>
+                                            Putni nalog: {brPutnogNaloga}
+                                        </p>
+                                        <p>
+                                            Status: {status}
+                                        </p>
+                                        {
+                                            <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
+                                        }
+                                    </div>
+                                )
+                            })}
+                            </div>)}
+                        {zaDoradu.length == 0 && <p>{"Nema zahtjeva za prikaz."}</p>}
+                        <p className="hZ"> Moji zahtjevi koje moram poslati na obračun: </p>
+                        {zaObracun.length > 0 && (
+                            <div className="sveNotif"> {zaObracun.map(({ brPutnogNaloga, status }) => {
+                                return (
+                                    <div key={brPutnogNaloga} className="oneNotif">
+                                        <p>
+                                            Putni nalog: {brPutnogNaloga}
+                                        </p>
+                                        <p>
+                                            Status: {status}
+                                        </p>
+                                        {<p>
+                                            {prikaziObavijest(brPutnogNaloga)}
+                                        </p>}
+                                        {
+                                            <button className="buttons" onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
+                                        }
+                                    </div>
+                                )
+                            })}
+                            </div>)}
+                        {zaObracun.length == 0 && <p>Nema zahtjeva za prikaz.</p>}
+                    </div>
+                </div>)}
+                {isShownPromjenaLozinke &&(
+                    <ObrazacZaPromjenuLozinkeKodAdmina ugasiPromjenuLozinke={ugasiPromjenuLozinke}></ObrazacZaPromjenuLozinkeKodAdmina>
+                )}
+            {isNalog && (
+                <Nalog sendUgasiNalog={sendUgasiNalog}></Nalog>
+            )}
+        </> : <p>Greška ...</p>)
 }
 
 export default Naslovnica;

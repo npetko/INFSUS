@@ -9,7 +9,6 @@ const ObrazacZaPromjenuLozinkeKodAdmina = ({ ugasiPromjenuLozinke}) => {
 
     const korisnik = JSON.parse(localStorage.getItem("korisnikToShow"))
 
-
     const handlePromjenuLozinke = (event) => {
         event.preventDefault();
         try {
@@ -25,7 +24,6 @@ const ObrazacZaPromjenuLozinkeKodAdmina = ({ ugasiPromjenuLozinke}) => {
             console.log(err.message)
         }
     }
-
 
     return(
         <>

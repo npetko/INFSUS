@@ -2,13 +2,8 @@ import React, {useState, useCallback, useEffect} from "react";
 import http from "./http-common"
 import { Navigate, useNavigate } from "react-router-dom";
 import ObrazacZaPromjenuLozinke from "./ObrazacZaPromjenuLozinkeKodAdmina";
-//ne prikazuju se u formi username i email treba u backendu slozit da se salje sa zaposlenicima
-
 
 const Zaposlenik = ({ugasiKorisnik}) => {
-    //const korisnik = JSON.parse(localStorage.getItem("korisnikToShow"))
-    //const korisnici = JSON.parse(localStorage.getItem("zaposlenici"))
-    //const korisnik = korisnici.filter((item) => item.oib === oib)
     const navigate = useNavigate();
 
     const [isShownKorisnik, setIsShownKorisnik] = useState(true);
@@ -44,7 +39,6 @@ const Zaposlenik = ({ugasiKorisnik}) => {
         try{
             http.post("/updateKorisnik", document.forms[0]).then(res => {
                 if(res.data === "Uspješno promijenjeni podaci") {
-                    //event.target.reset();
                     setUpdate(true)
                     ispisiStatus(res.data);
                 } else {
@@ -72,8 +66,6 @@ const Zaposlenik = ({ugasiKorisnik}) => {
         } catch (err) {
             console.log(err.message)
         }
-        //ugasiKorisnik();
-        
     }
 
     const [korisnik, setKorisnik] = useState([])
@@ -83,25 +75,19 @@ const Zaposlenik = ({ugasiKorisnik}) => {
 
     const fetchData = useCallback(async () => {
         try {
-            
                 const resIme = await http.get('zaposlenici/' + JSON.parse(localStorage.getItem("korisnikToShow")).username).then(async resIme => {
                     const resultIme = resIme.data
                     console.log(resultIme)
                     setResult(resultIme)
                 })
-            
-
         }
         catch (error) {
-            //Handle error
         }
     }, [])
+    
     useEffect(() => {
-        //Attempt to retreive data
-
         fetchData();
-    }
-        , [fetchData]);
+    }, [fetchData]);
 
     useEffect(() => {
         if (result) {

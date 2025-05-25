@@ -9,9 +9,7 @@ import MaticniAuti from "./MaticniAuti";
 import MaticniValute from "./MaticniValute";
 import MaticniDnevnice from "./MaticniDnevnice";
 
-
 const Maticni = () => {
-
     const userData = JSON.parse(localStorage.getItem("userData"));
     const navigate = useNavigate();
 
@@ -28,13 +26,10 @@ const Maticni = () => {
             return(
                 <div> Nije odabrana niti jedna kategorija.</div>
             )}; 
-         
       }
     
     const [podaciList, setPodaciList] = useState();
     const [result, setResult] = useState(null);
-    //let obj = { ["brPutnogNaloga"]: localStorage.getItem("brPutnogNalogaToShow") };
-
 
     const fetchData = useCallback(async () => {
         try {
@@ -42,7 +37,6 @@ const Maticni = () => {
             const result = res.data
 
             if (result) {
-                // Add any data transformation
                 setResult(result)
                 setPodaciList(result)
             }
@@ -51,12 +45,9 @@ const Maticni = () => {
             }
         }
         catch (error) {
-            //Handle error
         }
         }, [])
         useEffect(() => {
-            //Attempt to retreive data
-
             fetchData();
         }
             , [fetchData]);
@@ -66,36 +57,11 @@ const Maticni = () => {
             
         }, [result]);
 
-
-        //console.log()
-        //const ugasiNalog = () => {
-
-            //sendUgasiNalog(false);
-
-        //}
-
         if (result) {
             var podaci = result.at(0);
             localStorage.setItem("podaci", JSON.stringify(podaci))
             console.log(podaci);
         }
-
-    
-
-        //console.log()
-        //const ugasiNalog = () => {
-
-            //sendUgasiNalog(false);
-
-        //}
-
-        /*if (result) {
-            var podaci = result.at(0);
-            localStorage.setItem("podaci", JSON.stringify(podaci))
-            console.log(podaci);
-        }*/
-
-    
     
     return (
         <>
@@ -130,18 +96,11 @@ const Maticni = () => {
                         <div> Nije odabrana niti jedna kategorija.</div>  
                         )}
                         {selectedCategory === "tvrtka" && (
-                                
-                            
-                            
-                                
-                                <MaticniFirma></MaticniFirma>
-                           
-                            
+                            <MaticniFirma></MaticniFirma>
                         )}
                         {selectedCategory === "zaposlenici" && (
-                        <Zaposlenici></Zaposlenici>  
+                            <Zaposlenici></Zaposlenici>  
                         )}
-                        
                         {selectedCategory === "auti" && (
                             <MaticniAuti></MaticniAuti>
                         )}
@@ -153,16 +112,11 @@ const Maticni = () => {
                         )}
                     </div>
                     
-                    
                     <div className="sveNotif"> 
                         {}
                     </div>
                 </div>
             </div>)}
-
-        {//isObracun &&(
-           // <Obracun sendUgasiObracun={sendUgasiObracun}></Obracun>)
-        }
         </>
      );
 }

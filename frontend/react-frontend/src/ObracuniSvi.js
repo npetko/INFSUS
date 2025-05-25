@@ -21,9 +21,6 @@ const ObracuniSvi = () => {
 
     const userData = JSON.parse(localStorage.getItem("userData"));
     const navigate = useNavigate();
-
-
-    
     
     const [cuvajStatus, setCuvajStatus] = useState();
     const [cuvajZaposlenik, setCuvajZaposlenik] = useState();
@@ -33,11 +30,8 @@ const ObracuniSvi = () => {
     const [isShownObracuniSvi, setIsShownObracuniSvi] = useState(true);
     const showObracuniSvi = event => {
         setIsShownObracuniSvi(true);
-        
-        
     };
     const hideObracuniSvi = event => {
-        
         setIsShownObracuniSvi(false);
      }
     
@@ -49,7 +43,6 @@ const ObracuniSvi = () => {
         //setCuvajStatus(selectedCategoryStatus);
         //setCuvajZaposlenik(selectedCategoryZaposlenik);
         setIsObracun(true);
-            
     };
     const hideIsObracun = event => {
         setIsObracun(false);
@@ -57,60 +50,12 @@ const ObracuniSvi = () => {
 
     //ugasi obracun gumb
     const sendUgasiObracun = () => { //ugasi obracun kada je stisnut gumb
-        
-        
         setIsObracun(false);
-        
         setIsShownObracuniSvi(true);
-        
-      
       }
-
       const sendBrNaloga = (brPutnogNaloga) => {
-
         localStorage.setItem("brPutnogNalogaToShow", brPutnogNaloga);
     }
-
-    // ODABIR FILTRA
-    // fejk lista ljud treba iz backenda
-    // var listaImena =[
-    //     {
-    //          "imeZaposlenika":"Ana"
-             
-    //      }, 
-    //      {
-    //         "imeZaposlenika":"Matija"
-            
-    //     },
-    //     {
-    //         "imeZaposlenika":"Ivana"
-            
-    //     },
-    //  ]
-    
-     //fejk lista obracuna
-    //  var listaObracuna =[
-    //     {
-    //         "brPutnogNaloga":"123",
-    //          "status":"U_PRIPREMI",
-    //          "ime":"Ana",
-    //     }, 
-    //    {
-    //        "brPutnogNaloga":"155",
-    //         "status":"SPREMAN_ZA_OBRACUN",
-    //         "ime":"Marko",
-    //    },
-    //    {
-    //     "brPutnogNaloga":"135",
-    //      "status":"SPREMAN_ZA_OBRACUN",
-    //      "ime":"Ana",
-    // },
-    // {
-    //     "brPutnogNaloga":"158",
-    //      "status":"STORNIRAN",
-    //      "ime":"Ivana",
-    // },
-    //  ]
     
     // funkcija koja hendla kada odaberemo filtar u listi
     const [selectedCategoryStatus, setSelectedCategoryStatus] = useState();
@@ -121,10 +66,8 @@ const ObracuniSvi = () => {
 
     const fetchData = useCallback(async () => {
         try {
-            
             const res = await http.post("obracun/svi-obracuni",JSON.parse("{}"));
             const result = res.data.sviObracuni
-
             if (result) {
                 // Add any data transformation
                 setResult(result)
@@ -139,21 +82,15 @@ const ObracuniSvi = () => {
         }
     }, [])
     useEffect(() => {
-        //Attempt to retreive data
-
         fetchData();
-    }
-        , [fetchData]);
+    }, [fetchData]);
 
     useEffect(() => {
         setObracunList(result);
-      }, [result]);
+    }, [result]);
 
-      
     // Function to get filtered list
     function getFilteredList() {
-        
-    // Avoid filter when selectedCategory is null
         setCuvajStatus(selectedCategoryStatus);
         setCuvajZaposlenik(selectedCategoryZaposlenik);
         if (!selectedCategoryStatus && !selectedCategoryZaposlenik && !selectedCategoryBroj) {
@@ -184,25 +121,22 @@ const ObracuniSvi = () => {
     // Avoid duplicate function calls with useMemo
     var filteredList =  useMemo(getFilteredList, [selectedCategoryStatus, selectedCategoryZaposlenik, selectedCategoryBroj, obracunList]);
 
-
     function handleCategoryChangeStatus(event) {
         setSelectedCategoryStatus(event.target.value);
         setCuvajStatus(selectedCategoryStatus);
-        
-      }
+    }
+
     function handleCategoryChangeZaposlenik(event) {
         setSelectedCategoryZaposlenik(event.target.value);
         setCuvajZaposlenik(selectedCategoryZaposlenik);
-        
-        
-      }
+    }
     
     function handleCategoryChangeBroj(event) {
         setSelectedCategoryBroj(event.target.value);
         setCuvajBroj(event.target.value);
-        
-      }
-      if (result) {
+    }
+
+    if (result) {
         if (obracunList.length == 0) {
             var listaImena = []
         } else {
@@ -211,88 +145,74 @@ const ObracuniSvi = () => {
         console.log(listaImena)
     }
 
-        return (!result? <p>Učitava se ...</p>:
-            <>
-            {isShownObracuniSvi && (
-            <div className="naslovnica">
-                <div className="lista"> 
-                    <p className="hZ"> Svi obračuni: </p>
-                    <div className="filteri">
-                        <div className="filter-container">
-                            <div>Filtiraj po zaposleniku:</div>
-                            <div>
-                                <select
-                                    name="category-list"
-                                    id="category-list"
-                                    onChange={handleCategoryChangeZaposlenik}
-                                    value = {cuvajZaposlenik}
-                                    
-                                >
-                                    <option value="">Svi zaposlenici</option>
-                                    
-                                    {
-                                        listaImena.map((imeZaposlenika) => { return (
-                                            <option value={imeZaposlenika}>{imeZaposlenika}</option>
-                                        )})}
-                                    
-                                    
-                                </select>
-                            </div>
-                            <div>Filtiraj po statusu:</div>
-                            <div>
-                                <select
-                                    name="category-list"
-                                    id="category-list"
-                                    onChange={handleCategoryChangeStatus}
-                                    value = {cuvajStatus}
-                                    
-                                    
-                                >
-                                    <option value="">Svi obračuni</option>
-                                    <option value="U_PRIPREMI">U pripremi</option>
-                                    <option value="SPREMAN_ZA_OBRACUN">Spreman za obračun</option>
-                                    <option value="STORNIRAN">Storniran</option>
-                                    <option value="OBRACUNAT">Obračunat</option>
-                                </select>
-                            </div>
+    return (!result? <p>Učitava se ...</p>:
+        <>
+        {isShownObracuniSvi && (
+        <div className="naslovnica">
+            <div className="lista"> 
+                <p className="hZ"> Svi obračuni: </p>
+                <div className="filteri">
+                    <div className="filter-container">
+                        <div>Filtiraj po zaposleniku:</div>
+                        <div>
+                            <select
+                                name="category-list"
+                                id="category-list"
+                                onChange={handleCategoryChangeZaposlenik}
+                                value = {cuvajZaposlenik}
+                            >
+                                <option value="">Svi zaposlenici</option>
+                                {
+                                    listaImena.map((imeZaposlenika) => { return (
+                                        <option value={imeZaposlenika}>{imeZaposlenika}</option>
+                                )})}
+                            </select>
                         </div>
-                    </div>
-                    <div className="upisBroja">
-                            
-                                <label>Broj putnog naloga:</label>
-                                <input value={cuvajBroj} onChange={handleCategoryChangeBroj} />
-                            
+                        <div>Filtiraj po statusu:</div>
+                        <div>
+                            <select
+                                name="category-list"
+                                id="category-list"
+                                onChange={handleCategoryChangeStatus}
+                                value = {cuvajStatus}
+                            >
+                                <option value="">Svi obračuni</option>
+                                <option value="U_PRIPREMI">U pripremi</option>
+                                <option value="SPREMAN_ZA_OBRACUN">Spreman za obračun</option>
+                                <option value="STORNIRAN">Storniran</option>
+                                <option value="OBRACUNAT">Obračunat</option>
+                            </select>
                         </div>
-                    <div className="sveNotif"> {filteredList.map(({brPutnogNaloga, status, username}) => { return (
-                                    <div id={brPutnogNaloga} className="oneNotif"> 
-                                        <p> 
-                                            Putni nalog: {brPutnogNaloga}
-                                        </p>
-                                        <p>
-                                        Status: {status.replace(/_/g, " ")}
-                                        </p>
-                                        <p>
-                                            Ime: {username}
-                                        </p>
-                                        {
-                                        <button className="buttons" id="otvori-obracun" onClick={()=>{sendBrNaloga(brPutnogNaloga); showIsObracun();}}>Otvori obračun</button>
-                                }
-                                    </div>
-                        
-                                    
-                                    )})}
                     </div>
                 </div>
-            </div>)}
+                <div className="upisBroja">
+                            <label>Broj putnog naloga:</label>
+                            <input value={cuvajBroj} onChange={handleCategoryChangeBroj} />
+                </div>
+                <div className="sveNotif"> {filteredList.map(({brPutnogNaloga, status, username}) => { return (
+                    <div id={brPutnogNaloga} className="oneNotif"> 
+                        <p> 
+                            Putni nalog: {brPutnogNaloga}
+                        </p>
+                        <p>
+                        Status: {status.replace(/_/g, " ")}
+                        </p>
+                        <p>
+                            Ime: {username}
+                        </p>
+                        {
+                        <button className="buttons" id="otvori-obracun" onClick={()=>{sendBrNaloga(brPutnogNaloga); showIsObracun();}}>Otvori obračun</button>
+                        }
+                    </div>
+                )})}
+                </div>
+            </div>
+        </div>)}
 
-            {isObracun &&(
-                <Obracun sendUgasiObracun={sendUgasiObracun}></Obracun>
-            )}
-            </>
-         );
-    
-     
-    
-    
+        {isObracun &&(
+            <Obracun sendUgasiObracun={sendUgasiObracun}></Obracun>
+        )}
+        </>
+        );
 }
 export default ObracuniSvi;

@@ -28,7 +28,6 @@ const ObrazacZaNalog = () => {
 
     function handleSubmit(event) {
         event.preventDefault();
-        //navigate("/dashboard");
         if (isFirstSubmitButton) {
             try {
                 http.post("/novi-zahtjev", document.forms[0]).then(res => {
@@ -38,7 +37,6 @@ const ObrazacZaNalog = () => {
                     if (res.data === "Zahtjev je poslan na obradu.") {
                         event.target.reset();
                     }
-                    //else setErrorMessages({ name: "name", message: res.data });
                 });
             } catch (err) {
                 console.log(err.message)
@@ -51,63 +49,11 @@ const ObrazacZaNalog = () => {
                     if (res.data === "Zahtjev je spremljen.") {
                         event.target.reset();
                     }
-                    //else setErrorMessages({ name: "name", message: res.data });
                 });
             } catch (err) { console.log(err) }
             console.log("uspjesno nastavljeno")
         }
-
     }
-
-    // window.onloadend = loadCountries();
-    // let countriesDropDown = document.createElement('select');
-    //
-    // async function loadCountries() {
-    //     await fetch('/drzave').then(
-    //         function (response) {
-    //             if (response.status !== 200) {
-    //                 console.warn('Looks like there was a problem. Status code: ' + response.status);
-    //                 return;
-    //             }
-    //
-    //             response.json().then(function (data) {
-    //                 for (let i = 0; i < data.length; i++) {
-    //                     let option = document.createElement("option");
-    //                     // console.log(data[i]);
-    //                     option.text = data[i].imeDrzave;
-    //                     option.value = data[i].imeDrzave;
-    //                     countriesDropDown.add(option);
-    //                 }
-    //                 return countriesDropDown;
-    //             });
-    //         }
-    //     ).catch(function (err) {
-    //         console.error('Fetch Error -', err);
-    //     });
-    //
-    //     // const xhr = new XMLHttpRequest();
-    //     // xhr.open("GET", "/drzave");
-    //     // xhr.send();
-    //     // xhr.responseType = "json";
-    //     // xhr.onload = () => {
-    //     //     drzave = xhr.response;
-    //     //     for (let i = 0; i < drzave.length; i++) {
-    //     //         option.setAttribute('value', drzave[i].imeDrzave);
-    //     //
-    //     //         console.log(drzave[i]);
-    //     //
-    //     //         let optionText = document.createTextNode(drzave[i].imeDrzave);
-    //     //         option.appendChild(optionText);
-    //     //
-    //     //         console.log(option);
-    //     //
-    //     //         countriesDropDown.appendChild(option);
-    //     //     }
-    //     // };
-    //     // return;
-    // }
-
-    //
 
     const [drzava, setDrzava] = useState([]);
     const [drzavaList, setDrzavaList] = useState([]);
@@ -122,7 +68,6 @@ const ObrazacZaNalog = () => {
                 setResult(true)
             })
         } catch (error) {
-            //handle error
         }
     }, [])
 
@@ -168,10 +113,6 @@ const ObrazacZaNalog = () => {
                     </div>
                     <div className="inputStyle" >
                         <label className="text">Država putovanja: </label>
-                        {/*<select id="countriesDropDown" onChange={handleCountryChange}>*/}
-                        {/*    <option value={"Izaberite državu"}>Izaberite državu</option>*/}
-                        {/*    {drzavaList.map((drzava) => <option value={drzava.imeDrzave}>{drzava.imeDrzave}</option>)}*/}
-                        {/*</select>*/}
                         <input type="search" list="countriesDropDown" name="drz" id="drz"></input>
                         <datalist id="countriesDropDown" name="drz" onChange={handleCountryChange}>
                             {
@@ -182,7 +123,6 @@ const ObrazacZaNalog = () => {
                                 })
                             }
                         </datalist>
-
                     </div>
                     <div className="inputStyle">
                         <label className="text">Mjesto putovanja: </label>

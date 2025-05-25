@@ -120,64 +120,55 @@ const MojiNalozi = () => {
 
     return (result===null ? <p>Učitava se ...</p> :
         <>
-            {isShownMojiNalozi && (
-                <div className="naslovnica">
-                    <div className="lista">
-                        <p className="hZ"> Moji nalozi: </p>
-                        <div>Filtiraj po statusu naloga:</div>
-                        <div>
-                            <select
-                                name="category-list"
-                                id="category-list"
-                                onChange={handleCategoryChangeStatus}
-                                value={cuvajStatus}
-
-
-                            >
-                                <option value="">Svi nalozi</option>
-                                <option value="U_PRIPREMI">U pripremi</option>
-                                <option value="PODNESEN">Podnesen</option>
-                                <option value="VRACEN_NA_DORADU">Vraćen na doradu</option>
-                                <option value="ODOBREN">Odobren</option>
-                                <option value="ODBIJEN">Odbijen</option>
-                                <option value="STORNIRAN">Storniran</option>
-                                <option value="POSLAN_NA_OBRACUN">Poslan na obračun</option>
-                            </select>
-                        </div>
-                        {nalogList.length == 0 && <p>Nema zahtjeva za prikaz.</p>}
-                        { isShownMojiNalozi &&
-                            <div className="sveNotif"> {filteredList.map(({ brPutnogNaloga, status }) => {
-                                return (
-                                    <div key={brPutnogNaloga} className="oneNotif">
-                                        <p>
-                                            Putni nalog: {brPutnogNaloga}
-                                        </p>
-                                        <p>
-                                            Status: {status.replace(/_/g, " ")}
-                                        </p>
-                                        {
-                                            <button className="buttons" name="otvori-nalog" id={brPutnogNaloga} onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
-                                        }
-                                    </div>
-
-
-                                )
-                            })}
-                            </div>
-                        }
-
-
+        {isShownMojiNalozi && (
+            <div className="naslovnica">
+                <div className="lista">
+                    <p className="hZ"> Moji nalozi: </p>
+                    <div>Filtiraj po statusu naloga:</div>
+                    <div>
+                        <select
+                            name="category-list"
+                            id="category-list"
+                            onChange={handleCategoryChangeStatus}
+                            value={cuvajStatus}
+                        >
+                            <option value="">Svi nalozi</option>
+                            <option value="U_PRIPREMI">U pripremi</option>
+                            <option value="PODNESEN">Podnesen</option>
+                            <option value="VRACEN_NA_DORADU">Vraćen na doradu</option>
+                            <option value="ODOBREN">Odobren</option>
+                            <option value="ODBIJEN">Odbijen</option>
+                            <option value="STORNIRAN">Storniran</option>
+                            <option value="POSLAN_NA_OBRACUN">Poslan na obračun</option>
+                        </select>
                     </div>
-                </div>)}
+                    {nalogList.length == 0 && <p>Nema zahtjeva za prikaz.</p>}
+                    { isShownMojiNalozi &&
+                        <div className="sveNotif"> {filteredList.map(({ brPutnogNaloga, status }) => {
+                            return (
+                                <div key={brPutnogNaloga} className="oneNotif">
+                                    <p>
+                                        Putni nalog: {brPutnogNaloga}
+                                    </p>
+                                    <p>
+                                        Status: {status.replace(/_/g, " ")}
+                                    </p>
+                                    {
+                                        <button className="buttons" name="otvori-nalog" id={brPutnogNaloga} onClick={() => { sendBrNaloga(brPutnogNaloga); showIsNalog(); }}>Otvori nalog</button>
+                                    }
+                                </div>
+                            )
+                        })}
+                        </div>
+                    }
+                </div>
+            </div>)
+        }
 
             {isNalog && (
                 <Nalog sendUgasiNalog={sendUgasiNalog}></Nalog>
             )}
         </>
     );
-
-
-
-
 }
 export default MojiNalozi;

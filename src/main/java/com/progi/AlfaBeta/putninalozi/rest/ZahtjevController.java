@@ -621,7 +621,6 @@ public class ZahtjevController {
     @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
     @GetMapping("/drzave")
     public ResponseEntity<?> getAllDrzave() {
-//        System.out.println(drzavaService.listAll());
         try {
             return new ResponseEntity<>(drzavaService.listAll(), HttpStatus.OK);
         }
@@ -630,5 +629,29 @@ public class ZahtjevController {
         }
     }
 
-}
+    @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
+    @PutMapping("/drzave/{sifDrzava}")
+    public ResponseEntity<?> updateDrzava(
+            @PathVariable("sifDrzava") String sifraDrzave,
+            @RequestBody Drzava payload
+    ) {
+        if (!sifraDrzave.equals(payload.getSifraDrzave())) {
+            System.out.println(payload);
+            return ResponseEntity.badRequest().build();
+        }
+        Drzava updated = drzavaService.save(payload);
+        return ResponseEntity.ok(updated);
+    }
 
+    @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
+    @DeleteMapping("/drzave/{sifraDrzave}")
+    public ResponseEntity<Void> deleteDrzava(@PathVariable String sifraDrzave) {
+        try {
+            drzavaService.deleteById(sifraDrzave);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+}
