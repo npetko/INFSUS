@@ -44,7 +44,7 @@ const ObrazacZaDodavanjeKorisnika = ({sendUgasiAddUser}) => {
                     </div>
                     <div className="inputStyle">
                         <label className="text">Oib: </label>
-                        <input type="text" name="oib" required/>
+                        <input type="text" name="oib" required pattern="\d{11}" maxLength={11} title="OIB mora imati 11 znamenki"/>
                     </div>
                     <div className="inputStyle">
                         <label className="text">Korisničko ime: </label>
